@@ -1,8 +1,7 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
+<div [fxLayout]="'column'" fxFill>
+  <h1 [fxFlex]="'100px'">
     Welcome to {{ title }}!
   </h1>
+  <app-home fxFlex></app-home>
 </div>
-
-<router-outlet></router-outlet>
