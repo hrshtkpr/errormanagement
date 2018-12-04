@@ -1,0 +1,32 @@
+@import '~angular-mgl-timeline/theme';
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+// @include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue.
+
+// The warn palette is optional (defaults to red).
+// $candy-app-warn:    mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+// $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+$dark-primary: mat-palette($mat-green);
+$dark-accent:  mat-palette($mat-yellow);
+$dark-warn:    mat-palette($mat-red);
+$errorhandling-app-theme:   mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+@include mgl-timeline-theme($errorhandling-app-theme);
+
+.mySideBox {
+  border: 1px solid green;
+  padding: 1rem;
+  margin: 1rem;
+  background: #fafafa;
+  border-radius: 10px;
+}

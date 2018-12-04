@@ -1,6 +1,7 @@
 {
     "extends": "../tslint.json",
     "rules": {
+      "no-inferrable-types": true,
         "directive-selector": [
             true,
             "attribute",
@@ -14,4 +15,5 @@
             "kebab-case"
         ]
     }
+
 }

@@ -1,6 +1,6 @@
-<div [fxLayout]="'row'" fxFill>
-  <mat-form-field>
-    <mat-select placeholder="TechnicalReference"  [(ngModel)]="selectedTechnicalRefName">
+<div [fxLayout]="'row'">
+  <mat-form-field fxFlex>
+    <mat-select placeholder="Technical Reference"  [(ngModel)]="selectedTechnicalRefName">
       <mat-option  value="TransactionID">Transaction ID</mat-option>
       <mat-option  value="BusinessDomain">Business Domain</mat-option>
       <mat-option  value="TechnicalDomain">Technical Domain</mat-option>
@@ -8,29 +8,41 @@
       <mat-option  value="Service">Service</mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field fxFlex>
     <input #technicalRef matInput placeholder="Technical Ref" (keyup.enter)="addFilter('TechnicalRef',technicalRef.value)" (blur)="addFilter('TechnicalRef',technicalRef.value)">
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field fxFlex>
     <mat-select placeholder="Business Reference"  [(ngModel)]="selectedBusinessRefName">
-      <mat-option  *ngFor="let businessReference of businessReferences" [value]="businessReference.name">{{businessReference.name}}</mat-option>
+      <mat-option  *ngFor="let businessReference of businessReferences" [value]="businessReference.Name">{{businessReference.Name}}</mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
-    <input #businessRef matInput placeholder="Business Ref" (keyup.enter)="addFilter('BusinessRef',businessRef.value)" (blur)="addFilter('BusinessRef',businessRef.value)">
+  <mat-form-field fxFlex>
+    <input #businessRef matInput placeholder="Value" (keyup.enter)="addFilter('BusinessRef',businessRef.value)" (blur)="addFilter('BusinessRef',businessRef.value)">
   </mat-form-field>
 
-  <mat-form-field >
+  <mat-form-field fxFlex>
+    <mat-select placeholder="Exception Reference"  [(ngModel)]="selectedExceptionRefName">
+      <mat-option  value="Category">Category</mat-option>
+      <mat-option  value="Type">Type</mat-option>
+      <mat-option  value="Code">Code</mat-option>
+      <mat-option  value="Message">Message</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field fxFlex>
+    <input #exceptionRef matInput placeholder="Value" (keyup.enter)="addFilter('ExceptionRef',exceptionRef.value)" (blur)="addFilter('ExceptionRef',exceptionRef.value)">
+  </mat-form-field>
+
+  <mat-form-field fxFlex>
     <input #startDateTime matInput placeholder="Start" type="datetime-local" (keyup.enter)="addFilter('StartDateTime',startDateTime.value)" (blur)="addFilter('StartDateTime',startDateTime.value)">
   </mat-form-field>
-  <mat-form-field >
+  <mat-form-field fxFlex>
     <input #endDateTime matInput placeholder="End" type="datetime-local" (keyup.enter)="addFilter('EndDateTime',startDateTime.value)" (blur)="addFilter('EndDateTime',endDateTime.value)">
   </mat-form-field>
 
 </div>
-<div [fxLayout]="'row'" fxFill >
-  <mat-form-field class="filter-chip-list">
+<div [fxLayout]="'row'">
+  <mat-form-field class="filter-chip-list" fxFill>
     <mat-chip-list #chipList>
       <mat-chip *ngFor="let chip of chips" [selectable]="true"
                 [removable]="true" (removed)="removeFilter(chip )">

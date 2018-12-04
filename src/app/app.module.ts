@@ -22,7 +22,7 @@ import {
   MatInputModule,
   MatMenuModule, MatNativeDateModule,
   MatOptionModule,
-  MatSelectModule,
+  MatSelectModule, MatSlideToggleModule,
   MatTreeModule
 } from '@angular/material';
 import {MatFlatTreeComponent} from './shared/components/mat-flat-tree/mat-flat-tree.component';
@@ -38,6 +38,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {HttpClientModule} from '@angular/common/http';
 import {TransactionDetailComponent} from './transaction/transaction-detail/transaction-detail.component';
 import { MglTimelineModule } from 'angular-mgl-timeline';
+import {CdkTableModule} from '@angular/cdk/table';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,9 @@ import { MglTimelineModule } from 'angular-mgl-timeline';
     MatDatepickerModule,
     MatNativeDateModule,
     HttpClientModule,
-    MglTimelineModule
+    MglTimelineModule,
+    CdkTableModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

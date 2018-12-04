@@ -1,5 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '~@angular/material/theming';
+@include mat-core();
+
+$light-primary: mat-palette($mat-indigo);
+$light-accent:  mat-palette($mat-pink, A200, A100, A400);
+$error-handling-light-theme:   mat-light-theme($light-primary, $light-accent);
+@include angular-material-theme($error-handling-light-theme);
+
+
+// Define an alternate error-handling theme.
+$dark-primary: mat-palette($mat-green);
+$dark-accent:  mat-palette($mat-yellow);
+$dark-warn:    mat-palette($mat-red);
+$error-handling-dark-theme:   mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+
+.error-handling-theme {
+  @include angular-material-theme($error-handling-dark-theme);
+}
 
 html,
 body {
@@ -9,3 +25,4 @@ body {
   padding: 0;
   overflow: hidden;
 }
+

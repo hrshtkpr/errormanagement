@@ -5,8 +5,10 @@
     </app-mat-flat-tree>
   </mat-sidenav>
 
-  <mat-sidenav-content>
-    <button (click)="sidenav.toggle()">sidenav.toggle()</button>
+  <mat-sidenav-content class="mat-side-nav-content">
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

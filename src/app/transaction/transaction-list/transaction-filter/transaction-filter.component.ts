@@ -1,25 +1,14 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import DateTimeFormat = Intl.DateTimeFormat;
+import {filter} from 'rxjs/operators';
+import {BusinessRef, Transaction} from '../../transaction.model';
+import {TransactionService} from '../../transaction.service';
 
 
 export class Filter {
-  TransactionID: string;
-  BusinessDomain: string;
-  TechnicalDomain: string;
-  Component: string;
-  Service: string;
-  Operation: string;
-  StartDateTime: string;
-  EndDateTime: string;
-  // BusinessRefs: BusinessReference[];
 }
 
 export class Chip {
-  name: string;
-  value: string;
-}
-
-export class BusinessReference {
   name: string;
   value: string;
 }
@@ -33,19 +22,19 @@ export class TransactionFilterComponent implements OnInit {
   @Output() filterChanged = new EventEmitter();
 
   filter: Filter;
-  businessReferences: ({ name: string } | { name: string; value: string })[];
+  businessReferences: BusinessRef[];
   chips: Chip[];
   selectedBusinessRefName: string;
   selectedTechnicalRefName: string;
+  selectedExceptionRefName: string;
 
-
-  constructor() { }
+  constructor(private transactionService: TransactionService) { }
 
   ngOnInit() {
     this.filter = new Filter();
     // this.filter.BusinessRefs = [];
     this.chips = [];
-    this.businessReferences = [{name: 'BusinessFlow'}, {name: 'Username'}];
+    this.getBusinessRefs(this.filter);
   }
 
   removeFilter(chip: Chip) {
@@ -56,6 +45,19 @@ export class TransactionFilterComponent implements OnInit {
    //   this.filter.BusinessRefs.splice(index, 1);
    // }
     this.filterChanged.emit(this.filter);
+  }
+
+  getBusinessRefs(lfilter: Filter) {
+    const properties: string[] = Object.keys(lfilter);
+    const businessRefProperty = properties.find(property => property.startsWith('BusinessRef.'));
+    if (businessRefProperty == null) {
+      this.transactionService.getBusinessRefs(lfilter).subscribe(response => {
+        if (response['BusinessRefs'] !== null) {
+          const businessRefs: BusinessRef[] = response['BusinessRefs'];
+          this.businessReferences = businessRefs;
+        }
+      });
+    }
   }
 
   addFilter(name: string, value: string) {
@@ -79,6 +81,13 @@ export class TransactionFilterComponent implements OnInit {
         delete this.filter[this.selectedTechnicalRefName];
         this.filter[this.selectedTechnicalRefName] = value;
         this.upsertChip({name: this.selectedTechnicalRefName, value: value});
+        this.getBusinessRefs(this.filter);
+        this.filterChanged.emit(this.filter);
+      } else if (name === 'ExceptionRef' &&  this.selectedExceptionRefName !== undefined && this.selectedExceptionRefName.length > 0
+        && (this.getChip(this.selectedExceptionRefName) == null || value !== this.getChip(this.selectedExceptionRefName).value)) {
+        delete this.filter[this.selectedExceptionRefName];
+        this.filter[this.selectedExceptionRefName] = value;
+        this.upsertChip({name: this.selectedExceptionRefName, value: value});
         this.filterChanged.emit(this.filter);
       } else if ((name === 'StartDateTime' || name === 'EndDateTime') ) {
         delete this.filter[name];
