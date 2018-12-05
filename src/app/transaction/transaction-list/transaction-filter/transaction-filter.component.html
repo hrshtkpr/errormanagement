@@ -1,4 +1,4 @@
-<div [fxLayout]="'row'">
+<div [fxLayout]="'row wrap'" fxLayoutGap="1rem" >
   <mat-form-field fxFlex>
     <mat-select placeholder="Technical Reference"  [(ngModel)]="selectedTechnicalRefName">
       <mat-option  value="TransactionID">Transaction ID</mat-option>
@@ -9,7 +9,7 @@
     </mat-select>
   </mat-form-field>
   <mat-form-field fxFlex>
-    <input #technicalRef matInput placeholder="Technical Ref" (keyup.enter)="addFilter('TechnicalRef',technicalRef.value)" (blur)="addFilter('TechnicalRef',technicalRef.value)">
+    <input #technicalRef matInput placeholder="Value" (keyup.enter)="addFilter('TechnicalRef',technicalRef.value)" (blur)="addFilter('TechnicalRef',technicalRef.value)">
   </mat-form-field>
 
   <mat-form-field fxFlex>
@@ -41,7 +41,7 @@
   </mat-form-field>
 
 </div>
-<div [fxLayout]="'row'">
+<div [fxLayout]="'row'"  *ngIf="chips?.length>0">
   <mat-form-field class="filter-chip-list" fxFill>
     <mat-chip-list #chipList>
       <mat-chip *ngFor="let chip of chips" [selectable]="true"

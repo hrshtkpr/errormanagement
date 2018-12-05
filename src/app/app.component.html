@@ -1,7 +1,14 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div [fxLayout]="'column'" fxFill>
-  <h1 [fxFlex]="'100px'">
-    Welcome to {{ title }}!
-  </h1>
+  <mat-toolbar color="primary">
+    <mat-toolbar-row [fxLayout]="'row'" fxLayoutAlign="start center">
+      <!-- <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button> -->
+      <span fxFlex></span>
+      <span >{{title}}</span>
+      <span fxFlex></span>
+    </mat-toolbar-row>
+  </mat-toolbar>
   <app-home fxFlex></app-home>
 </div>

@@ -1,5 +1,5 @@
 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-  <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle (click)="onClick(node)">
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle (click)="onClick(node)" class="app-mat-flat-tree clickable">
     {{node.name}}
   </mat-tree-node>
 </mat-tree>

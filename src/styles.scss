@@ -26,3 +26,72 @@ body {
   overflow: hidden;
 }
 
+.padding-all-s {
+  padding: 1rem;
+}
+
+.padding-all-xs {
+  padding: 0.5rem;
+}
+.padding-all-m {
+  padding: 1.5rem;
+}
+.margin-all-s {
+  margin: 1rem;
+}
+
+.margin-all-xs {
+  margin: 0.5rem;
+}
+.margin-all-m {
+  margin: 1.5rem;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+
+/* code to generate margin (asml--margin-top-1,asml--margin-bottom-1,....)and padding(asml--padding-top-1,asml--padding-bottom-2,....) based on loop */
+$dimensions: (0.5: xs, 1:s, 1.5:m, 2:l, 2.5:xl); // Adjust this to include the pixel amounts you need.
+$sides: (top, bottom, left, right, top-bottom, left-right, all); // Leave this variable alone
+
+// contributed by bharath muppa
+@each $space, $name in $dimensions {
+  @each $side in $sides {
+    @if $side == all {
+      .asml--margin-#{$side}-#{$name} {
+        margin: #{$space}rem !important;
+      }
+      .asml--padding-#{$side}-#{$name} {
+        padding: #{$space}rem !important;
+      }
+    } @else if str-length($side) >6 {
+      $indexOfSeparator: str-index($side, '-');
+      $length: str-length($side);
+      .asml--margin-#{str-slice($side, 0, $indexOfSeparator - 1)}-#{str-slice($side, $indexOfSeparator + 1, $length+1)}-#{$name} {
+        margin-#{str-slice($side, 0, $indexOfSeparator - 1)}: #{$space}rem !important;
+        margin-#{str-slice($side, $indexOfSeparator + 1, $length+1)}: #{$space}rem !important;
+      }
+      .asml--padding-#{str-slice($side, 0, $indexOfSeparator - 1)}-#{str-slice($side, $indexOfSeparator+1, $length+1)}-#{$name} {
+        padding-#{str-slice($side, 0, $indexOfSeparator - 1)}: #{$space}rem !important;
+        padding-#{str-slice($side, $indexOfSeparator + 1, $length+1)}: #{$space}rem !important;
+      }
+    } @else {
+      .asml--margin-#{$side}-#{$name} {
+        margin-#{$side}: #{$space}rem !important;
+      }
+      .asml--padding-#{$side}-#{$name} {
+        padding-#{$side}: #{$space}rem !important;
+      }
+    }
+  }
+}
+
+.asml--margin-0 {
+  margin: 0 !important;
+}
+
+.asml--padding-0 {
+  padding: 0
+}
