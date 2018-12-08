@@ -21,7 +21,11 @@ $dark-primary: mat-palette($mat-green);
 $dark-accent:  mat-palette($mat-red);
 $errorhandling-app-theme:   mat-light-theme($dark-primary, $dark-accent);
 
-@include mgl-timeline-theme($errorhandling-app-theme);
+$light-primary: mat-palette($mat-indigo);
+$light-accent:  mat-palette($mat-pink, A200, A100, A400);
+$error-handling-light-theme:   mat-light-theme($light-primary, $light-accent);
+
+@include mgl-timeline-theme($error-handling-light-theme);
 
 .mySideBox {
   border: 1px solid green;

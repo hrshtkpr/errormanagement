@@ -24,7 +24,7 @@
         </div>
 
       </mgl-timeline-entry-content>
-      <mgl-timeline-entry-dot [class]="entry.EventStatus=='Exception' ? 'accent' : 'primary'"
+      <mgl-timeline-entry-dot [style.background-color]="entry.EventStatus=='Exception' ? 'red' : 'green'"
                               [size]="25"
                               (click)="onDotClick($event,entry)">
         <mat-icon *ngIf="entry.EventStatus=='Start-Entrypoint'">flight_takeoff</mat-icon>

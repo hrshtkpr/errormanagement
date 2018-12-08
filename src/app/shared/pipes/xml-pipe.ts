@@ -43,42 +43,42 @@ export class XmlPipe implements PipeTransform {
         inComment = false;
       } else
       // <elm></elm> //
-      if (!(/^<\w/.exec(ar[ix - 1]) && /^<\/\w/.exec(ar[ix]) &&
+/*      if (!(/^<\w/.exec(ar[ix - 1]) && /^<\/\w/.exec(ar[ix]) &&
         /^<[\w:\-\.\,]+/.exec(ar[ix - 1]) === /^<\/[\w:\-\.\,]+/.exec(ar[ix])[0].replace('/', ''))) {
-        if (ar[ix].search(/<\w/) > -1 && ar[ix].search(/<\//) === -1 && ar[ix].search(/\/>/) === -1) {
-          str = !inComment ? str += shift[deep++] + ar[ix] : str += ar[ix];
-        } else
-        // <elm>...</elm> //
-        if (ar[ix].search(/<\w/) > -1 && ar[ix].search(/<\//) > -1) {
-          str = !inComment ? str += shift[deep] + ar[ix] : str += ar[ix];
-        } else
-        // </elm> //
-        if (ar[ix].search(/<\//) > -1) {
-          str = !inComment ? str += shift[--deep] + ar[ix] : str += ar[ix];
-        } else
-        // <elm/> //
-        if (ar[ix].search(/\/>/) > -1) {
-          str = !inComment ? str += shift[deep] + ar[ix] : str += ar[ix];
-        } else
-        // <? xml ... ?> //
-        if (ar[ix].search(/<\?/) > -1) {
-          str += shift[deep] + ar[ix];
-        } else
-        // xmlns //
-        if (ar[ix].search(/xmlns\:/) > -1 || ar[ix].search(/xmlns\=/) > -1) {
-          str += shift[deep] + ar[ix];
-        } else {
-          str += ar[ix];
-        }
+      }*/
+      if (ar[ix].search(/<\w/) > -1 && ar[ix].search(/<\//) === -1 && ar[ix].search(/\/>/) === -1) {
+        str = !inComment ? str += shift[deep++] + ar[ix] : str += ar[ix];
+      } else
+      // <elm>...</elm> //
+      if (ar[ix].search(/<\w/) > -1 && ar[ix].search(/<\//) > -1) {
+        str = !inComment ? str += shift[deep] + ar[ix] : str += ar[ix];
+      } else
+      // </elm> //
+      if (ar[ix].search(/<\//) > -1) {
+        str = !inComment ? str += shift[--deep] + ar[ix] : str += ar[ix];
+      } else
+      // <elm/> //
+      if (ar[ix].search(/\/>/) > -1) {
+        str = !inComment ? str += shift[deep] + ar[ix] : str += ar[ix];
+      } else
+      // <? xml ... ?> //
+      if (ar[ix].search(/<\?/) > -1) {
+        str += shift[deep] + ar[ix];
+      } else
+      // xmlns //
+      if (ar[ix].search(/xmlns\:/) > -1 || ar[ix].search(/xmlns\=/) > -1) {
+        str += shift[deep] + ar[ix];
       } else {
+        str += ar[ix];
+      } /*else {
         str += ar[ix];
         if (!inComment) {
           deep--;
         }
-      }
+      }*/
     }
 
-    return  (str[0] == '\n') ? str.slice(1) : str;
+    return  (str[0] === '\n') ? str.slice(1) : str;
   }
 
   private createShiftArr(step) {
@@ -104,7 +104,7 @@ export class XmlPipe implements PipeTransform {
       }
     }
 
-    let shift = ['\n']; // array of shifts
+    const shift = ['\n']; // array of shifts
     for(let ix=0;ix < 100; ix++) {
       shift.push(shift[ix] + space);
     }
