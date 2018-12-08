@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 
 @Component({
@@ -7,7 +7,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
+  @Input() sideNavShow: boolean;
   TREE_DATA = {Dashboard: {}, Transaction: {}, Configuration: {Notification: {}, Persistence: {}, Retry: {}}};
   constructor(private _router: Router) { }
 

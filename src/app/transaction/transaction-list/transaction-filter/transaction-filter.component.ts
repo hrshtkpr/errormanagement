@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import DateTimeFormat = Intl.DateTimeFormat;
 import {filter} from 'rxjs/operators';
 import {BusinessRef, Transaction} from '../../transaction.model';
@@ -32,7 +32,6 @@ export class TransactionFilterComponent implements OnInit {
 
   ngOnInit() {
     this.filter = new Filter();
-    // this.filter.BusinessRefs = [];
     this.chips = [];
     this.getBusinessRefs(this.filter);
   }

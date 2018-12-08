@@ -1,14 +1,11 @@
 <mat-sidenav-container fxFlex>
 
-  <mat-sidenav #sidenav mode="side" opened="true">
+  <mat-sidenav mode="side" [opened]="sideNavShow">
     <app-mat-flat-tree [treeData]="TREE_DATA" (activeNodeChanged)="onActiveNodeChange($event)" >
     </app-mat-flat-tree>
   </mat-sidenav>
 
   <mat-sidenav-content class="mat-side-nav-content">
-    <button mat-icon-button (click)="sidenav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

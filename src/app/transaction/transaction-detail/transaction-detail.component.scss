@@ -18,9 +18,9 @@
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 $dark-primary: mat-palette($mat-green);
-$dark-accent:  mat-palette($mat-yellow);
-$dark-warn:    mat-palette($mat-red);
-$errorhandling-app-theme:   mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+$dark-accent:  mat-palette($mat-red);
+$errorhandling-app-theme:   mat-light-theme($dark-primary, $dark-accent);
+
 @include mgl-timeline-theme($errorhandling-app-theme);
 
 .mySideBox {
@@ -30,3 +30,10 @@ $errorhandling-app-theme:   mat-dark-theme($dark-primary, $dark-accent, $dark-wa
   background: #fafafa;
   border-radius: 10px;
 }
+
+.example-card {
+  max-width: 400px;
+  padding: 1rem;
+  margin: 1rem;
+}
+

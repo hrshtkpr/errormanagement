@@ -1,9 +1,10 @@
-<div class="error-handling-theme">
+<mat-progress-bar  *ngIf="serviceInProgress" mode="indeterminate"></mat-progress-bar>
+<div *ngIf="!serviceInProgress" class="error-handling-theme">
   <mgl-timeline [toggle]="false" [alternate]="false">
     <mgl-timeline-entry *ngFor="let entry of entries; let i = index;"
                         (expand)="onExpandEntry($event, i)">
       <mgl-timeline-entry-header (click)="onHeaderClick($event)">
-        <div>{{entry.ComponentName}}-{{entry.ServiceName}}-{{entry.BusinessOperation}}</div>
+        <div><span>{{entry.ComponentName.substring(1+entry.ComponentName.indexOf('-'))}}</span>  >  <span>{{entry.ServiceName}}</span>  >  <span>{{entry.BusinessOperation}}</span></div>
       </mgl-timeline-entry-header>
       <mgl-timeline-entry-content>
         <div fxLayout="column">
@@ -23,12 +24,43 @@
         </div>
 
       </mgl-timeline-entry-content>
-      <mgl-timeline-entry-dot [class]="entry.Status=='EventStart' ? 'primary' : 'accent'"
-                              [size]="50"
-                              (click)="onDotClick($event,entry)"></mgl-timeline-entry-dot>
-     <mgl-timeline-entry-side fxLayout="row" >
-       <div fxFlex class="mySideBox">{{entry.TransactionData}}</div>
-       <div fxFlex class="mySideBox">{{entry.DumpAnalysis}}</div>
+      <mgl-timeline-entry-dot [class]="entry.EventStatus=='Exception' ? 'accent' : 'primary'"
+                              [size]="25"
+                              (click)="onDotClick($event,entry)">
+        <mat-icon *ngIf="entry.EventStatus=='Start-Entrypoint'">flight_takeoff</mat-icon>
+        <mat-icon *ngIf="entry.EventStatus=='End-Entrypoint'">flight_land</mat-icon>
+        <mat-icon *ngIf="entry.EventStatus=='Exception' && entry.BusinessConcept=='ErrorReport'">bug_report</mat-icon>
+        <mat-icon *ngIf="entry.EventStatus=='Exception' && entry.BusinessConcept!='ErrorReport'">error_outline</mat-icon>
+      </mgl-timeline-entry-dot>
+     <mgl-timeline-entry-side fxLayout="row" layout-wrap layout-align="space-between center">
+       <!--<div fxFlex class="mySideBox">{{entry?.TransactionData | summaries:200 }}</div>-->
+       <!--<div fxFlex class="mySideBox">{{entry.DumpAnalysis | summaries:200}} </div>-->
+
+
+       <mat-card class="example-card">
+         <mat-card-header>
+           <mat-card-subtitle>Transaction Data</mat-card-subtitle>
+         </mat-card-header>
+<!--         <mat-card-content>
+           <p>{{entry?.TransactionData | summaries:200 }}</p>
+         </mat-card-content>-->
+         <mat-card-actions>
+           <button mat-button  (click)="openDialog('Transaction Data', entry?.TransactionData, entry)"><mat-icon>launch</mat-icon></button>
+           <button mat-button><mat-icon>file_copy</mat-icon></button>
+         </mat-card-actions>
+       </mat-card>
+       <mat-card class="example-card">
+         <mat-card-header>
+           <mat-card-subtitle>Dump Analysis</mat-card-subtitle>
+         </mat-card-header>
+         <!--         <mat-card-content>
+                    <p>{{entry?.DumpAnalysis | summaries:200 }}</p>
+                  </mat-card-content>-->
+         <mat-card-actions>
+           <button mat-button  (click)="openDialog('Dump Analysis', entry?.DumpAnalysis, entry)"><mat-icon>launch</mat-icon></button>
+           <button mat-button><mat-icon>file_copy</mat-icon></button>
+         </mat-card-actions>
+       </mat-card>
 
       </mgl-timeline-entry-side>
     </mgl-timeline-entry>

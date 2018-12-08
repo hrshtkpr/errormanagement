@@ -17,11 +17,11 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {
-  MatButtonModule,
+  MatButtonModule, MatCardModule,
   MatFormFieldModule,
   MatInputModule,
   MatMenuModule, MatNativeDateModule,
-  MatOptionModule, MatPaginatorModule,
+  MatOptionModule, MatPaginatorModule, MatProgressBarModule,
   MatSelectModule, MatSlideToggleModule, MatToolbar,
   MatTreeModule
 } from '@angular/material';
@@ -40,6 +40,10 @@ import {TransactionDetailComponent} from './transaction/transaction-detail/trans
 import { MglTimelineModule } from 'angular-mgl-timeline';
 import {CdkTableModule} from '@angular/cdk/table';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {SummaryPipe} from './shared/pipes/summary-pipe';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatDialogComponent} from './shared/components/mat-dialog/mat-dialog.component';
+import {XmlPipe} from './shared/pipes/xml-pipe';
 
 @NgModule({
   declarations: [
@@ -48,7 +52,10 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     TransactionFilterComponent,
     TransactionDetailComponent,
     HomeComponent,
-    MatFlatTreeComponent
+    MatFlatTreeComponent,
+    SummaryPipe,
+    MatDialogComponent,
+    XmlPipe
   ],
   imports: [
     BrowserModule,
@@ -76,9 +83,15 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     CdkTableModule,
     MatSlideToggleModule,
     MatPaginatorModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatProgressBarModule,
+    MatCardModule,
+    MatDialogModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    MatDialogComponent
+  ]
 })
 export class AppModule { }

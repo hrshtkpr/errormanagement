@@ -2,13 +2,13 @@
 <div [fxLayout]="'column'" fxFill>
   <mat-toolbar color="primary">
     <mat-toolbar-row [fxLayout]="'row'" fxLayoutAlign="start center">
-      <!-- <button mat-icon-button (click)="sidenav.toggle()">
+      <button mat-icon-button (click)="sideNavToggle()">
         <mat-icon>menu</mat-icon>
-      </button> -->
+      </button>
       <span fxFlex></span>
       <span >{{title}}</span>
       <span fxFlex></span>
     </mat-toolbar-row>
   </mat-toolbar>
-  <app-home fxFlex></app-home>
+  <app-home fxFlex [sideNavShow]="sideNavOpen"></app-home>
 </div>

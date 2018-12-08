@@ -7,6 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  sideNavOpen:boolean = true;
   title = 'Error Management';
+
+  sideNavToggle() {
+    this.sideNavOpen = !this.sideNavOpen;
+  }
 
 }

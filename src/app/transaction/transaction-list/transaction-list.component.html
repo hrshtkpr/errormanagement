@@ -1,5 +1,6 @@
 <div fxLayout="column">
   <app-transaction-filter (filterChanged)="onFilterChange($event)" [style.background]="'white'" class="asml--padding-left-right-s mat-elevation-z1"></app-transaction-filter>
+  <mat-progress-bar  *ngIf="serviceInProgress" mode="indeterminate"></mat-progress-bar>
   <div class="asml--padding-left-right-s asml--margin-top-s">
   <div class="example-container  mat-elevation-z1">
     <table mat-table [dataSource]="dataSource" >
@@ -8,8 +9,8 @@
         <th mat-header-cell *matHeaderCellDef> {{disCol}} </th>
 
         <td mat-cell *matCellDef="let element" class="error-handling-theme">
-          <mat-icon *ngIf="disCol=='Status' && element[disCol]=='Done'"  color="primary">sentiment_very_satisfied</mat-icon>
-          <mat-icon *ngIf="disCol=='Status' && element[disCol]=='Error'" color="warn">sentiment_very_dissatisfied</mat-icon>
+          <mat-icon *ngIf="disCol=='Status' && (element[disCol]=='Success' || element[disCol]=='Resolved')"  color="primary">sentiment_very_satisfied</mat-icon>
+          <mat-icon *ngIf="disCol=='Status' && element[disCol]=='Exception'" color="warn">sentiment_very_dissatisfied</mat-icon>
           <mat-icon *ngIf="disCol=='Status' && element[disCol]=='Pending'" color="accent">sentiment_dissatisfied</mat-icon>
           <a *ngIf="disCol=='TransactionID'" [routerLink]="['/transaction',element[disCol]]">{{element[disCol]}}</a>
           <div *ngIf="disCol!='Status' && disCol!='TransactionID'" class="mat-row">{{element[disCol]}}</div>

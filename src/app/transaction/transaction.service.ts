@@ -12,12 +12,22 @@ export class TransactionService {
 
   constructor(private readonly httpClient: HttpClient ) { }
 
-/*  getTransactions(filter: Filter)  {
-    const url = 'http://localhost:9095/loggings';
+  getTransactions(filter: Filter)  {
+    const url = 'http://localhost:10526/transactions';
     return this.httpClient.get(url, {params: {...filter}});
-  }*/
+  }
 
-  getTransactions(filter: Filter): Observable<Transaction> {
+  getEvents(filter: Filter)  {
+    const url = 'http://localhost:10526/events';
+    return this.httpClient.get(url, {params: {...filter}});
+  }
+
+  getEvent(ID: string, filter: Filter) {
+    const url = 'http://localhost:10526/events/' + ID;
+    return this.httpClient.get(url, {params: {...filter}});
+  }
+
+  /*  getTransactions(filter: Filter): Observable<Transaction> {
     return Observable.create(observer => {
       const obj = {};
       const obj1 = {};
@@ -66,9 +76,9 @@ export class TransactionService {
         ]}});
       observer.complete();
     });
-  }
+  }*/
 
-  getEvents(filter: Filter): Observable<Event> {
+/*  getEvents(filter: Filter): Observable<Event> {
     return Observable.create(observer => {
       observer.next( { Events : {Event: [{EventStatus: 'EventStart', ID: 'ID1', JobKey: 'JobKey1',
           Context: { BusinessConcept: 'BusinessConcept1', BusinessDomain: 'BusinessDomain1', BusinessOperation: 'BusinessOperation1',
@@ -95,9 +105,9 @@ export class TransactionService {
             TransactionID: 'TransactionID1', Timestamp: '1244567'}, EventType: 'L'}]   }  } );
       observer.complete();
     });
-  }
+  }*/
 
-  getEvent(ID: string, EventType: string): Observable<Event> {
+/*  getEvent(ID: string, EventType: string): Observable<Event> {
     console.log(ID);
     console.log(EventType);
     if (EventType === 'E') {
@@ -120,7 +130,7 @@ export class TransactionService {
         observer.complete();
       });
     }
-  }
+  }*/
 
  getBusinessRefs(filter: Filter): Observable<BusinessRef> {
     return Observable.create(observer => {
