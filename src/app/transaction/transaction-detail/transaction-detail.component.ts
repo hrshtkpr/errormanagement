@@ -11,7 +11,7 @@ import {MatDialogComponent} from '../../shared/components/mat-dialog/mat-dialog.
   templateUrl: './transaction-detail.component.html',
   styleUrls: ['./transaction-detail.component.scss']
 })
-export class TransactionDetailComponent implements OnInit{
+export class TransactionDetailComponent implements OnInit {
   // expandEnabled: boolean = true;
   serviceInProgress: boolean;
   TransactionID: string;
@@ -65,6 +65,11 @@ export class TransactionDetailComponent implements OnInit{
             response['Event']['LogDetail']['TransactionData'] != null) {
             event.TransactionData = decodeURIComponent(response['Event']['LogDetail']['TransactionData']);
           }
+          if (response['Event'] != null && response['Event']['Context'] != null &&
+            response['Event']['Context']['BusinessRefs'] != null) {
+            event.BusinessRefs = response['Event']['Context']['BusinessRefs'];
+            console.log(event);
+          }
         }
       });
     }
@@ -78,20 +83,20 @@ export class TransactionDetailComponent implements OnInit{
     // expanded.stopPropagation();
   }
 
-  openDialog(title: string, content: string, event: FlatEvent): void {
+  openDialog(title: string, flatEvent: FlatEvent): void {
 
-    if (event.DumpAnalysis == null && event.TransactionData == null) {
-      this.transactionService.getEvent(event.ID, {Type: event.EventType}).subscribe(response => {
+    if (flatEvent.DumpAnalysis == null && flatEvent.TransactionData == null) {
+      this.transactionService.getEvent(flatEvent.ID, {Type: flatEvent.EventType}).subscribe(response => {
         if (response !== null) {
           console.log(response);
           if (response['Event'] != null && response['Event']['ExceptionDetail'] != null &&
             response['Event']['ExceptionDetail']['DumpAnalysis'] != null) {
-            event.DumpAnalysis = decodeURIComponent(response['Event']['ExceptionDetail']['DumpAnalysis']);
-            event.TransactionData = decodeURIComponent(response['Event']['ExceptionDetail']['TransactionData']);
+            flatEvent.DumpAnalysis = decodeURIComponent(response['Event']['ExceptionDetail']['DumpAnalysis']);
+            flatEvent.TransactionData = decodeURIComponent(response['Event']['ExceptionDetail']['TransactionData']);
           }
           if (response['Event'] != null && response['Event']['LogDetail'] != null &&
             response['Event']['LogDetail']['TransactionData'] != null) {
-            event.TransactionData = decodeURIComponent(response['Event']['LogDetail']['TransactionData']);
+            flatEvent.TransactionData = decodeURIComponent(response['Event']['LogDetail']['TransactionData']);
           }
         }
       });
@@ -100,7 +105,7 @@ export class TransactionDetailComponent implements OnInit{
 
     const dialogRef = this.dialog.open(MatDialogComponent, {
       // width: '500px',
-      data: {Title: title, Content: content}
+      data: {title: title, flatEvent: flatEvent}
     });
 
     dialogRef.afterClosed().subscribe(result => {
