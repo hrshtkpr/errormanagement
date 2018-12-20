@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 
 @Component({
@@ -7,11 +7,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  sideNavOpen:boolean = true;
-  title = 'Error Management';
+  sideNavOpen: boolean;
 
-  sideNavToggle() {
-    this.sideNavOpen = !this.sideNavOpen;
+  constructor() {
+    this.sideNavOpen = true;
   }
 
+  openSideNav(isNavBarOpen) {
+    this.sideNavOpen = isNavBarOpen;
+  }
 }
