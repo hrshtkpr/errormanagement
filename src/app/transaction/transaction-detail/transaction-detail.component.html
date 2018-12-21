@@ -49,10 +49,7 @@
 
         <div fxLayout="column" fxLayoutGap="1rem">
           <div fxLayout="row wrap" fxLayoutGap="1rem">
-            <mat-card *ngFor="let businessRef of entry.BusinessRefs.BusinessRef;">
-              <mat-card-subtitle>{{businessRef.Name}}</mat-card-subtitle>
-              <mat-card-title>{{businessRef.Value}}</mat-card-title>
-            </mat-card>
+            <app-mat-card *ngFor="let businessRef of entry.BusinessRefs.BusinessRef;" [subtitle]="businessRef.Name" [title]="businessRef.Value"></app-mat-card>
           </div>
         </div>
       </mgl-timeline-entry-side>
