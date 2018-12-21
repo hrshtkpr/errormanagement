@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {TransactionService} from '../transaction.service';
-import {EventASML, FlatEvent, FlatTransaction, Transaction} from '../transaction.model';
+import {EventASML, FlatEvent} from '../transaction.model';
 import {MatDialog} from '@angular/material';
 import {MatDialogComponent} from '../../shared/components/mat-dialog/mat-dialog.component';
 
@@ -47,7 +47,7 @@ export class TransactionDetailComponent implements OnInit {
     //   event.stopPropagation();
     // }
 
-   // event.stopPropagation();
+    // event.stopPropagation();
   }
 
   onDotClick(evt, event: FlatEvent) {
@@ -82,6 +82,7 @@ export class TransactionDetailComponent implements OnInit {
     console.log(`Expand status of entry #${index} changed to ${expanded}`);
     // expanded.stopPropagation();
   }
+
 
   openDialog(title: string, flatEvent: FlatEvent): void {
 

@@ -10,44 +10,19 @@
       <mgl-timeline-entry-content>
         <div fxLayout="column" fxLayoutGap="1rem">
           <div fxLayout="row wrap" fxLayoutGap="1rem">
-            <mat-card>
-              <mat-card-subtitle>Business Domain</mat-card-subtitle>
-              <mat-card-title>{{entry.BusinessDomain}}</mat-card-title>
-            </mat-card>
-            <mat-card>
-              <mat-card-subtitle>Technical Domain</mat-card-subtitle>
-              <mat-card-title>{{entry.TechnicalDomain}}</mat-card-title>
-            </mat-card>
-            <mat-card>
-              <mat-card-subtitle>Business Concept</mat-card-subtitle>
-              <mat-card-title>{{entry.BusinessConcept}}</mat-card-title>
-            </mat-card>
+            <app-mat-card [subtitle]="'Business Domain'" [title]="entry.BusinessDomain"></app-mat-card>
+            <app-mat-card [subtitle]="'Technical Domain'" [title]="entry.TechnicalDomain"></app-mat-card>
+            <app-mat-card [subtitle]="'Business Concept'" [title]="entry.BusinessConcept"></app-mat-card>
+          </div>
+
+          <div *ngIf="entry.EventType=='E'" fxLayout="row wrap" fxLayoutGap="1rem">
+            <app-mat-card [subtitle]="'Category'" [title]="entry.Category"></app-mat-card>
+            <app-mat-card [subtitle]="'Severity'" [title]="entry.Severity"></app-mat-card>
+            <app-mat-card [subtitle]="'Type'" [title]="entry.Type"></app-mat-card>
+            <app-mat-card [subtitle]="'Code'" [title]="entry.Code"></app-mat-card>
           </div>
           <div *ngIf="entry.EventType=='E'" fxLayout="row wrap" fxLayoutGap="1rem">
-
-            <mat-card>
-              <mat-card-subtitle>Category</mat-card-subtitle>
-              <mat-card-title>{{entry.Category}}</mat-card-title>
-            </mat-card>
-            <mat-card>
-              <mat-card-subtitle>Severity</mat-card-subtitle>
-              <mat-card-title>{{entry.Severity}}</mat-card-title>
-            </mat-card>
-            <mat-card>
-              <mat-card-subtitle>Type</mat-card-subtitle>
-              <mat-card-title>{{entry.Type}}</mat-card-title>
-            </mat-card>
-            <mat-card>
-              <mat-card-subtitle>Code</mat-card-subtitle>
-              <mat-card-title>{{entry.Code}}</mat-card-title>
-            </mat-card>
-          </div>
-          <div *ngIf="entry.EventType=='E'" fxLayout="row wrap" fxLayoutGap="1rem">
-            <mat-card fxFlex>
-              <mat-card-title>Message</mat-card-title>
-              <mat-card-subtitle>{{entry.Message}}</mat-card-subtitle>
-
-            </mat-card>
+            <app-mat-card fxFlex [subtitle]="'Message'" [title]="entry.Message"></app-mat-card>
           </div>
         </div>
 
@@ -80,7 +55,6 @@
             </mat-card>
           </div>
         </div>
-
       </mgl-timeline-entry-side>
     </mgl-timeline-entry>
   </mgl-timeline>

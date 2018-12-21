@@ -2,12 +2,24 @@ import {NgModule} from '@angular/core';
 import {MatFlatTreeComponent} from './components/mat-flat-tree/mat-flat-tree.component';
 import {SummaryPipe} from './pipes/summary-pipe';
 import {
-  MatButtonModule, MatCardModule, MatChipsModule, MatDatepickerModule, MatDialogModule,
+  MatButtonModule,
+  MatCardModule,
+  MatChipsModule,
+  MatDatepickerModule,
+  MatDialogModule,
   MatFormFieldModule,
-  MatIconModule, MatInputModule,
-  MatListModule, MatMenuModule, MatNativeDateModule, MatPaginatorModule, MatProgressBarModule, MatSelectModule,
-  MatSidenavModule, MatSlideToggleModule,
-  MatTableModule, MatToolbarModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
+  MatNativeDateModule,
+  MatPaginatorModule,
+  MatProgressBarModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatSlideToggleModule,
+  MatTableModule,
+  MatToolbarModule,
   MatTreeModule
 } from '@angular/material';
 import {MglTimelineModule} from 'angular-mgl-timeline';
@@ -16,12 +28,14 @@ import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {XmlPipe} from './pipes/xml-pipe';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatCardComponent} from './components/mat-card/mat-card.component';
 
 @NgModule({
   declarations: [
     MatFlatTreeComponent,
     SummaryPipe,
-    XmlPipe],
+    XmlPipe,
+    MatCardComponent],
   imports: [
     MatTableModule,
     MatSidenavModule,
@@ -75,7 +89,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     XmlPipe,
     SummaryPipe,
     MatFlatTreeComponent,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatCardComponent
   ]
 })
 export class SharedModule {
