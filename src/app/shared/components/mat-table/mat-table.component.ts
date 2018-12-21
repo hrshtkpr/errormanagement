@@ -1,29 +1,27 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
-import {FlatTransaction, Transaction} from '../../transaction.model';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
 
 @Component({
-  selector: 'app-transaction-table',
-  templateUrl: './transaction-table.component.html',
-  styleUrls: ['./transaction-table.component.scss']
+  selector: 'app-mat-table',
+  templateUrl: './mat-table.component.html',
+  styleUrls: ['./mat-table.component.scss']
 })
-export class TransactionTableComponent implements OnChanges, OnInit {
+export class MatTableComponent implements OnInit, OnChanges {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  @Input() flatTransactions: FlatTransaction[];
+  @Input() rows: any[];
   displayedColumns = [];
-  dataSource: MatTableDataSource<FlatTransaction>;
-  constructor() {
-  }
+  dataSource: MatTableDataSource<any>;
+  constructor() { }
 
   ngOnInit() {
-    this.dataSource = new MatTableDataSource(this.flatTransactions);
+    this.dataSource = new MatTableDataSource(this.rows);
   }
 
   private _refreshTableStructure() {
     let newProperties: string [] = null;
-    if (this.flatTransactions != null && this.flatTransactions.length > 0) {
-      for (const lflatTransaction of this.flatTransactions) {
+    if (this.rows != null && this.rows.length > 0) {
+      for (const lflatTransaction of this.rows) {
         for (const flatTransactionProperty in lflatTransaction ) {
           if (newProperties == null) {
             newProperties = [flatTransactionProperty];
@@ -38,7 +36,7 @@ export class TransactionTableComponent implements OnChanges, OnInit {
       this.displayedColumns = newProperties.slice();
     }
 
-    this.dataSource.data = this.flatTransactions;
+    this.dataSource.data = this.rows;
     this.dataSource.paginator = this.paginator;
   }
 

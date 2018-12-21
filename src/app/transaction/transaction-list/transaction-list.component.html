@@ -2,6 +2,9 @@
   <app-transaction-filter (filterChanged)="onFilterChange($event)" [style.background]="'white'"
                           class="asml--padding-left-right-s mat-elevation-z1"></app-transaction-filter>
   <mat-progress-bar *ngIf="serviceInProgress" mode="indeterminate"></mat-progress-bar>
-  <app-transaction-table class="asml--padding-left-right-s asml--margin-top-s" [flatTransactions]="flatTransactions"></app-transaction-table>
-
+  <div class="asml--padding-left-right-s asml--margin-top-s">
+    <div class="example-container  mat-elevation-z1">
+      <app-mat-table [rows]="flatTransactions"></app-mat-table>
+    </div>
+  </div>
 </div>

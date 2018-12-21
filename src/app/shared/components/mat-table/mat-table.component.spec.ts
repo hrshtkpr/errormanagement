@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TransactionTableComponent } from './transaction-table.component';
+import { MatTableComponent } from './mat-table.component';
 
-describe('TransactionTableComponent', () => {
-  let component: TransactionTableComponent;
-  let fixture: ComponentFixture<TransactionTableComponent>;
+describe('MatTableComponent', () => {
+  let component: MatTableComponent;
+  let fixture: ComponentFixture<MatTableComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TransactionTableComponent ]
+      declarations: [ MatTableComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TransactionTableComponent);
+    fixture = TestBed.createComponent(MatTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {MatFlatTreeComponent} from './components/mat-flat-tree/mat-flat-tree.component';
 import {SummaryPipe} from './pipes/summary-pipe';
+import {CommonModule} from '@angular/common';
 import {
   MatButtonModule,
   MatCardModule,
@@ -29,13 +30,16 @@ import {HttpClientModule} from '@angular/common/http';
 import {XmlPipe} from './pipes/xml-pipe';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatCardComponent} from './components/mat-card/mat-card.component';
+import {MatTableComponent} from './components/mat-table/mat-table.component';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
   declarations: [
     MatFlatTreeComponent,
     SummaryPipe,
     XmlPipe,
-    MatCardComponent],
+    MatCardComponent,
+    MatTableComponent],
   imports: [
     MatTableModule,
     MatSidenavModule,
@@ -60,7 +64,9 @@ import {MatCardComponent} from './components/mat-card/mat-card.component';
     CdkTableModule,
     FormsModule,
     HttpClientModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    CommonModule,
+    RouterModule
   ],
   exports: [
     MatTableModule,
@@ -90,7 +96,9 @@ import {MatCardComponent} from './components/mat-card/mat-card.component';
     SummaryPipe,
     MatFlatTreeComponent,
     FlexLayoutModule,
-    MatCardComponent
+    MatCardComponent,
+    MatTableComponent,
+    RouterModule
   ]
 })
 export class SharedModule {
