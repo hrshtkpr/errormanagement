@@ -10,7 +10,7 @@
     </mat-select>
   </mat-form-field>
   <mat-form-field fxFlex>
-    <input #technicalRef matInput placeholder="Value" (keyup.enter)="addFilter('TechnicalRef',technicalRef.value)" (blur)="addFilter('TechnicalRef',technicalRef.value)">
+    <input #technicalRef matInput placeholder="Value" (keyup.enter)="addCriteria('TechnicalRef',technicalRef.value)" (blur)="addCriteria('TechnicalRef',technicalRef.value)">
   </mat-form-field>
 
   <mat-form-field fxFlex>
@@ -19,7 +19,7 @@
     </mat-select>
   </mat-form-field>
   <mat-form-field fxFlex>
-    <input #businessRef matInput placeholder="Value" (keyup.enter)="addFilter('BusinessRef',businessRef.value)" (blur)="addFilter('BusinessRef',businessRef.value)">
+    <input #businessRef matInput placeholder="Value" (keyup.enter)="addCriteria('BusinessRef',businessRef.value)" (blur)="addCriteria('BusinessRef',businessRef.value)">
   </mat-form-field>
 
   <mat-form-field fxFlex>
@@ -31,14 +31,14 @@
     </mat-select>
   </mat-form-field>
   <mat-form-field fxFlex>
-    <input #exceptionRef matInput placeholder="Value" (keyup.enter)="addFilter('ExceptionRef',exceptionRef.value)" (blur)="addFilter('ExceptionRef',exceptionRef.value)">
+    <input #exceptionRef matInput placeholder="Value" (keyup.enter)="addCriteria('ExceptionRef',exceptionRef.value)" (blur)="addCriteria('ExceptionRef',exceptionRef.value)">
   </mat-form-field>
 
   <mat-form-field fxFlex>
-    <input #startDateTime matInput placeholder="Start" type="datetime-local" (keyup.enter)="addFilter('StartDateTime',startDateTime.value)" (blur)="addFilter('StartDateTime',startDateTime.value)">
+    <input #startDateTime matInput placeholder="Start" type="datetime-local" (keyup.enter)="addCriteria('StartDateTime',startDateTime.value)" (blur)="addCriteria('StartDateTime',startDateTime.value)">
   </mat-form-field>
   <mat-form-field fxFlex>
-    <input #endDateTime matInput placeholder="End" type="datetime-local" (keyup.enter)="addFilter('EndDateTime',startDateTime.value)" (blur)="addFilter('EndDateTime',endDateTime.value)">
+    <input #endDateTime matInput placeholder="End" type="datetime-local" (keyup.enter)="addCriteria('EndDateTime',startDateTime.value)" (blur)="addCriteria('EndDateTime',endDateTime.value)">
   </mat-form-field>
 
 </div>
@@ -46,7 +46,7 @@
   <mat-form-field class="filter-chip-list" fxFill>
     <mat-chip-list #chipList>
       <mat-chip *ngFor="let chip of chips" [selectable]="true"
-                [removable]="true" (removed)="removeFilter(chip )">
+                [removable]="true" (removed)="removeCriteria(chip )">
         {{chip.name}}={{chip.value}}
         <mat-icon matChipRemove>cancel</mat-icon>
       </mat-chip>

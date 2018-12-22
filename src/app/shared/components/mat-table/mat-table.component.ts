@@ -12,21 +12,27 @@ export class MatTableComponent implements OnInit, OnChanges {
   @Input() rows: any[];
   displayedColumns = [];
   dataSource: MatTableDataSource<any>;
-  constructor() { }
+
+  constructor() {
+  }
 
   ngOnInit() {
     this.dataSource = new MatTableDataSource(this.rows);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this._refreshTableStructure();
   }
 
   private _refreshTableStructure() {
     let newProperties: string [] = null;
     if (this.rows != null && this.rows.length > 0) {
       for (const lflatTransaction of this.rows) {
-        for (const flatTransactionProperty in lflatTransaction ) {
+        for (const flatTransactionProperty in lflatTransaction) {
           if (newProperties == null) {
             newProperties = [flatTransactionProperty];
           } else if (newProperties.find(property => property === flatTransactionProperty) == null) {
-            newProperties.push(flatTransactionProperty );
+            newProperties.push(flatTransactionProperty);
           }
         }
       }
@@ -36,11 +42,10 @@ export class MatTableComponent implements OnInit, OnChanges {
       this.displayedColumns = newProperties.slice();
     }
 
-    this.dataSource.data = this.rows;
-    this.dataSource.paginator = this.paginator;
-  }
+    if (this.dataSource != null && this.dataSource !== undefined) {
+      this.dataSource.data = this.rows;
+      this.dataSource.paginator = this.paginator;
+    }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this._refreshTableStructure();
   }
 }

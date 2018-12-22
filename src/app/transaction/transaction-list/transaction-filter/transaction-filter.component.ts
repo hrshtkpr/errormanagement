@@ -1,7 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import DateTimeFormat = Intl.DateTimeFormat;
-import {filter} from 'rxjs/operators';
-import {BusinessRef, Transaction} from '../../transaction.model';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {BusinessRef} from '../../transaction.model';
 import {TransactionService} from '../../transaction.service';
 
 
@@ -28,7 +26,8 @@ export class TransactionFilterComponent implements OnInit {
   selectedTechnicalRefName: string;
   selectedExceptionRefName: string;
 
-  constructor(private transactionService: TransactionService) { }
+  constructor(private transactionService: TransactionService) {
+  }
 
   ngOnInit() {
     this.filter = new Filter();
@@ -36,13 +35,9 @@ export class TransactionFilterComponent implements OnInit {
     this.getBusinessRefs(this.filter);
   }
 
-  removeFilter(chip: Chip) {
-    this.deleteChip(chip);
+  removeCriteria(chip: Chip) {
     delete this.filter[chip.name];
-   // const index = this.filter.BusinessRefs.findIndex(businessRef => businessRef.name === chip.name);
-   // if (index >= 0) {
-   //   this.filter.BusinessRefs.splice(index, 1);
-   // }
+    this.filterToChips();
     this.filterChanged.emit(this.filter);
   }
 
@@ -59,43 +54,33 @@ export class TransactionFilterComponent implements OnInit {
     }
   }
 
-  addFilter(name: string, value: string) {
+  addCriteria(name: string, value: string) {
     if (value.length > 0) {
       if (name === 'BusinessRef' && this.selectedBusinessRefName !== undefined && this.selectedBusinessRefName.length > 0
         && (this.getChip(this.selectedBusinessRefName) == null || value !== this.getChip(this.selectedBusinessRefName).value)) {
-        /*const res = this.filter.BusinessRefs.find(businessRef => businessRef.name === this.selectedBusinessRefName);
-        if (res != null) {
-          res.value = value;
-        } else {
-          this.filter.BusinessRefs.push({name: this.selectedBusinessRefName, value: value});
-        }
-        this.upsertChip({name: this.selectedBusinessRefName, value: value});
-        this.filterChanged.emit(this.filter);*/
         delete this.filter['BusinessRef.' + this.selectedBusinessRefName];
         this.filter['BusinessRef.' + this.selectedBusinessRefName] = value;
-        this.upsertChip({name: this.selectedBusinessRefName, value: value});
         this.filterChanged.emit(this.filter);
-      } else if (name === 'TechnicalRef' &&  this.selectedTechnicalRefName !== undefined && this.selectedTechnicalRefName.length > 0
+      } else if (name === 'TechnicalRef' && this.selectedTechnicalRefName !== undefined && this.selectedTechnicalRefName.length > 0
         && (this.getChip(this.selectedTechnicalRefName) == null || value !== this.getChip(this.selectedTechnicalRefName).value)) {
         delete this.filter[this.selectedTechnicalRefName];
         this.filter[this.selectedTechnicalRefName] = value;
-        this.upsertChip({name: this.selectedTechnicalRefName, value: value});
         this.getBusinessRefs(this.filter);
         this.filterChanged.emit(this.filter);
-      } else if (name === 'ExceptionRef' &&  this.selectedExceptionRefName !== undefined && this.selectedExceptionRefName.length > 0
+      } else if (name === 'ExceptionRef' && this.selectedExceptionRefName !== undefined && this.selectedExceptionRefName.length > 0
         && (this.getChip(this.selectedExceptionRefName) == null || value !== this.getChip(this.selectedExceptionRefName).value)) {
         delete this.filter[this.selectedExceptionRefName];
         this.filter[this.selectedExceptionRefName] = value;
-        this.upsertChip({name: this.selectedExceptionRefName, value: value});
         this.filterChanged.emit(this.filter);
-      } else if ((name === 'StartDateTime' || name === 'EndDateTime') ) {
+      } else if ((name === 'StartDateTime' || name === 'EndDateTime')) {
         delete this.filter[name];
         this.filter[name] = value;
-        this.upsertChip({name: name, value: value});
         this.filterChanged.emit(this.filter);
       } else {
 
       }
+
+      this.filterToChips();
     }
   }
 
@@ -115,11 +100,22 @@ export class TransactionFilterComponent implements OnInit {
   upsertChip(chip: Chip) {
     const fchip = this.chips.find(lchip => lchip.name === chip.name);
     if (fchip == null) {
-      if (chip.value.length > 0 ) {
+      if (chip.value.length > 0) {
         this.chips.push(chip);
       }
     } else {
       fchip.value = chip.value;
+    }
+  }
+
+  filterToChips(): void {
+    this.chips.splice(0, this.chips.length);
+    for (const criteria in this.filter) {
+      if (criteria.startsWith('BusinessRef.')) {
+        this.upsertChip({name: criteria.substring('BusinessRef.'.length - 1 ), value: this.filter[criteria]});
+      } else {
+        this.upsertChip({name: criteria, value: this.filter[criteria]});
+      }
     }
   }
 }
