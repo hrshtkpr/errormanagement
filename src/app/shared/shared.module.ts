@@ -32,6 +32,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatCardComponent} from './components/mat-card/mat-card.component';
 import {MatTableComponent} from './components/mat-table/mat-table.component';
 import {RouterModule} from '@angular/router';
+import { MatFilterComponent } from './components/mat-filter/mat-filter.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import {RouterModule} from '@angular/router';
     SummaryPipe,
     XmlPipe,
     MatCardComponent,
-    MatTableComponent],
+    MatTableComponent,
+    MatFilterComponent],
   imports: [
     MatTableModule,
     MatSidenavModule,
@@ -98,7 +100,8 @@ import {RouterModule} from '@angular/router';
     FlexLayoutModule,
     MatCardComponent,
     MatTableComponent,
-    RouterModule
+    RouterModule,
+    MatFilterComponent
   ]
 })
 export class SharedModule {

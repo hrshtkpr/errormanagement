@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Filter} from './transaction-list/transaction-filter/transaction-filter.component';
+import {Filter} from '../shared/components/mat-filter/mat-filter.component';
 
 import {observable, Observable} from 'rxjs';
 import {BusinessRef, Transaction} from './transaction.model';

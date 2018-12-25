@@ -1,8 +1,7 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {Filter} from './transaction-filter/transaction-filter.component';
+import {Component, OnInit} from '@angular/core';
 import {TransactionService} from '../transaction.service';
-import {Transaction, FlatTransaction} from '../transaction.model';
-import {MatTableDataSource, MatPaginator} from '@angular/material';
+import {FlatTransaction, Transaction} from '../transaction.model';
+import {Filter} from '../../shared/components/mat-filter/mat-filter.component';
 
 @Component({
   selector: 'app-transaction-list',
@@ -10,9 +9,13 @@ import {MatTableDataSource, MatPaginator} from '@angular/material';
   styleUrls: ['./transaction-list.component.scss']
 })
 export class TransactionListComponent implements OnInit {
+  technicalReferences = ['TransactionID', 'BusinessDomain', 'TechnicalDomain', 'Component', 'Service', 'BusinessOperation'];
+  exceptionReferences = ['ExceptionCategory', 'ExceptionType', 'ExceptionCode', 'ExceptionMessage'];
+  businessReferences = ['BusinessReference1', 'BusinessReference2'];
   filter: Filter;
   serviceInProgress: boolean;
   flatTransactions: FlatTransaction[];
+
   constructor(private transactionService: TransactionService) {
     this.filter = null;
   }

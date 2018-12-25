@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TransactionFilterComponent } from './transaction-filter.component';
+import { MatFilterComponent } from './mat-filter.component';
 
-describe('TransactionFilterComponent', () => {
-  let component: TransactionFilterComponent;
-  let fixture: ComponentFixture<TransactionFilterComponent>;
+describe('MatFilterComponent', () => {
+  let component: MatFilterComponent;
+  let fixture: ComponentFixture<MatFilterComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TransactionFilterComponent ]
+      declarations: [ MatFilterComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TransactionFilterComponent);
+    fixture = TestBed.createComponent(MatFilterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

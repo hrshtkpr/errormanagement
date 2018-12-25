@@ -1,6 +1,9 @@
 <div fxLayout="column">
-  <app-transaction-filter (filterChanged)="onFilterChange($event)" [style.background]="'white'"
-                          class="asml--padding-left-right-s mat-elevation-z1"></app-transaction-filter>
+  <!--<app-transaction-filter (filterChanged)="onFilterChange($event)" [style.background]="'white'"
+                          class="asml--padding-left-right-s mat-elevation-z1"></app-transaction-filter> -->
+  <app-mat-filter [technicalReferences]="technicalReferences" [businessReferences]="businessReferences"
+    [exceptionReferences]="exceptionReferences" class="asml--padding-left-right-s mat-elevation-z1"
+                  [style.background]="'white'" (filterChanged)="onFilterChange($event)"></app-mat-filter>
   <mat-progress-bar *ngIf="serviceInProgress" mode="indeterminate"></mat-progress-bar>
   <div class="asml--padding-left-right-s asml--margin-top-s">
     <div class="example-container  mat-elevation-z1">

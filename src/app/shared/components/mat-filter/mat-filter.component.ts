@@ -1,57 +1,45 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {BusinessRef} from '../../transaction.model';
-import {TransactionService} from '../../transaction.service';
+import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 
 
 export class Filter {
 }
 
-export class Chip {
+class Chip {
   name: string;
   value: string;
 }
 
 @Component({
-  selector: 'app-transaction-filter',
-  templateUrl: './transaction-filter.component.html',
-  styleUrls: ['./transaction-filter.component.scss']
+  selector: 'app-mat-filter',
+  templateUrl: './mat-filter.component.html',
+  styleUrls: ['./mat-filter.component.scss']
 })
-export class TransactionFilterComponent implements OnInit {
+export class MatFilterComponent implements OnChanges {
+  @Input() technicalReferences: string[];
+  @Input() businessReferences: string[];
+  @Input() exceptionReferences: string[];
   @Output() filterChanged = new EventEmitter();
-
   filter: Filter;
-  businessReferences: BusinessRef[];
   chips: Chip[];
   selectedBusinessRefName: string;
   selectedTechnicalRefName: string;
   selectedExceptionRefName: string;
 
-  constructor(private transactionService: TransactionService) {
-  }
-
-  ngOnInit() {
-    this.filter = new Filter();
+  constructor() {
+    this.technicalReferences = [];
+    this.businessReferences = [];
+    this.exceptionReferences = [];
     this.chips = [];
-    this.getBusinessRefs(this.filter);
+    this.filter = new Filter();
   }
 
-  removeCriteria(chip: Chip) {
-    delete this.filter[chip.name];
+  ngOnChanges() {
+  }
+
+  removeCriteria(name: string) {
+    delete this.filter[name];
     this.filterToChips();
     this.filterChanged.emit(this.filter);
-  }
-
-  getBusinessRefs(lfilter: Filter) {
-    const properties: string[] = Object.keys(lfilter);
-    const businessRefProperty = properties.find(property => property.startsWith('BusinessRef.'));
-    if (businessRefProperty == null) {
-      this.transactionService.getBusinessRefs(lfilter).subscribe(response => {
-        if (response['BusinessRefs'] !== null) {
-          const businessRefs: BusinessRef[] = response['BusinessRefs'];
-          this.businessReferences = businessRefs;
-        }
-      });
-    }
   }
 
   addCriteria(name: string, value: string) {
@@ -65,7 +53,6 @@ export class TransactionFilterComponent implements OnInit {
         && (this.getChip(this.selectedTechnicalRefName) == null || value !== this.getChip(this.selectedTechnicalRefName).value)) {
         delete this.filter[this.selectedTechnicalRefName];
         this.filter[this.selectedTechnicalRefName] = value;
-        this.getBusinessRefs(this.filter);
         this.filterChanged.emit(this.filter);
       } else if (name === 'ExceptionRef' && this.selectedExceptionRefName !== undefined && this.selectedExceptionRefName.length > 0
         && (this.getChip(this.selectedExceptionRefName) == null || value !== this.getChip(this.selectedExceptionRefName).value)) {
@@ -79,7 +66,6 @@ export class TransactionFilterComponent implements OnInit {
       } else {
 
       }
-
       this.filterToChips();
     }
   }
@@ -118,4 +104,5 @@ export class TransactionFilterComponent implements OnInit {
       }
     }
   }
+
 }

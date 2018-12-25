@@ -1,12 +1,7 @@
 <div [fxLayout]="'row wrap'" fxLayoutGap="1rem" >
   <mat-form-field fxFlex>
     <mat-select placeholder="Technical Reference"  [(ngModel)]="selectedTechnicalRefName">
-      <mat-option  value="TransactionID">Transaction ID</mat-option>
-      <mat-option  value="BusinessDomain">Business Domain</mat-option>
-      <mat-option  value="TechnicalDomain">Technical Domain</mat-option>
-      <mat-option  value="Component">Component</mat-option>
-      <mat-option  value="Service">Service</mat-option>
-      <mat-option  value="BusinessOperation">Business Operation</mat-option>
+      <mat-option  *ngFor="let technicalReference of technicalReferences" [value]="technicalReference">{{technicalReference}}</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field fxFlex>
@@ -15,7 +10,7 @@
 
   <mat-form-field fxFlex>
     <mat-select placeholder="Business Reference"  [(ngModel)]="selectedBusinessRefName">
-      <mat-option  *ngFor="let businessReference of businessReferences" [value]="businessReference.Name">{{businessReference.Name}}</mat-option>
+      <mat-option  *ngFor="let businessReference of businessReferences" [value]="businessReference">{{businessReference}}</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field fxFlex>
@@ -24,10 +19,7 @@
 
   <mat-form-field fxFlex>
     <mat-select placeholder="Exception Reference"  [(ngModel)]="selectedExceptionRefName">
-      <mat-option  value="ExceptionCategory">Exception Category</mat-option>
-      <mat-option  value="ExceptionType">Type</mat-option>
-      <mat-option  value="ExceptionCode">Exception Code</mat-option>
-      <mat-option  value="ExceptionMessage">Exception Message</mat-option>
+      <mat-option  *ngFor="let exceptionReference of exceptionReferences" [value]="exceptionReference">{{exceptionReference}}</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field fxFlex>
@@ -46,7 +38,7 @@
   <mat-form-field class="filter-chip-list" fxFill>
     <mat-chip-list #chipList>
       <mat-chip *ngFor="let chip of chips" [selectable]="true"
-                [removable]="true" (removed)="removeCriteria(chip )">
+                [removable]="true" (removed)="removeCriteria(chip.name )">
         {{chip.name}}={{chip.value}}
         <mat-icon matChipRemove>cancel</mat-icon>
       </mat-chip>
