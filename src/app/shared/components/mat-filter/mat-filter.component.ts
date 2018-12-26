@@ -15,6 +15,7 @@ class Chip {
   styleUrls: ['./mat-filter.component.scss']
 })
 export class MatFilterComponent implements OnChanges {
+  // ADD INOUT PROPERTY FOR INITIALIZING FILTER
   @Input() technicalReferences: string[];
   @Input() businessReferences: string[];
   @Input() exceptionReferences: string[];

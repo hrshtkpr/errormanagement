@@ -5,7 +5,10 @@ import {TransactionDetailComponent} from './transaction-detail/transaction-detai
 import {TransactionRoutingModule} from './transaction-routing.module';
 import {SharedModule} from '../shared/shared.module';
 import {CommonModule} from '@angular/common';
-
+import {StoreModule} from '@ngrx/store';
+import * as fromTransactionReducer from './transaction.reducer';
+import {EffectsModule} from '@ngrx/effects';
+import {TransactionEffects} from './transaction.effects';
 
 @NgModule({
   declarations: [
@@ -15,7 +18,9 @@ import {CommonModule} from '@angular/common';
   imports: [
     TransactionRoutingModule,
     CommonModule,
-    SharedModule
+    SharedModule,
+    StoreModule.forFeature('transaction', fromTransactionReducer.transactionReducer),
+    EffectsModule.forFeature([TransactionEffects])
   ],
   providers: [
     TransactionService

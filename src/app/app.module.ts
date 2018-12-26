@@ -8,6 +8,11 @@ import {MatDialogComponent} from './shared/components/mat-dialog/mat-dialog.comp
 import {HeaderComponent} from './main/header/header.component';
 import {BodyComponent} from './main/body/body.component';
 import {SharedModule} from './shared/shared.module';
+import {StoreModule} from '@ngrx/store';
+import {metaReducers, reducers} from './reducers';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {environment} from '../environments/environment';
+import {EffectsModule} from '@ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -19,7 +24,10 @@ import {SharedModule} from './shared/shared.module';
   imports: [
     BrowserAnimationsModule,
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    StoreModule.forRoot(reducers, {metaReducers}),
+    EffectsModule.forRoot([]),
+    !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   providers: [],
   bootstrap: [AppComponent],

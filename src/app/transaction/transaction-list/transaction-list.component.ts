@@ -1,7 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TransactionService} from '../transaction.service';
 import {FlatTransaction, Transaction} from '../transaction.model';
 import {Filter} from '../../shared/components/mat-filter/mat-filter.component';
+import {AppState} from '../../reducers';
+import {select, Store} from '@ngrx/store';
+import {FilterUpdated} from '../transaction.actions';
+import {selectTransactionList, selectTransactionListLoading} from '../transaction.selectors';
+import {Observable, of} from 'rxjs';
+import {map, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-transaction-list',
@@ -12,35 +18,23 @@ export class TransactionListComponent implements OnInit {
   technicalReferences = ['TransactionID', 'BusinessDomain', 'TechnicalDomain', 'Component', 'Service', 'BusinessOperation'];
   exceptionReferences = ['ExceptionCategory', 'ExceptionType', 'ExceptionCode', 'ExceptionMessage'];
   businessReferences = ['BusinessReference1', 'BusinessReference2'];
-  filter: Filter;
-  serviceInProgress: boolean;
-  flatTransactions: FlatTransaction[];
+  flatTransactions$: Observable<FlatTransaction[]>;
+  transactionListLoading$: Observable<boolean>;
 
-  constructor(private transactionService: TransactionService) {
-    this.filter = null;
+  constructor(private store: Store<AppState>) {
   }
 
   ngOnInit() {
-    this.serviceInProgress = false;
+    this.flatTransactions$ = this.store.pipe(
+      select(selectTransactionList),
+      map(response => response.map(tx => new FlatTransaction(tx))),
+    );
+    this.transactionListLoading$ = this.store.pipe(
+      select(selectTransactionListLoading)
+    );
   }
 
   onFilterChange(filter: Filter) {
-    this.filter = filter;
-    this._getTransactions();
-  }
-
-  private _getTransactions() {
-    if (this.filter != null && Object.keys(this.filter).length > 0 && this.filter.constructor !== Object) {
-      this.serviceInProgress = true;
-      this.transactionService.getTransactions(this.filter).subscribe(response => {
-        if (response['Transactions'] != null && response['Transactions']['Transaction'] !== null) {
-          const transactions: Transaction[] = response['Transactions']['Transaction'];
-          this.flatTransactions = transactions.map(transaction => new FlatTransaction(transaction));
-        } else {
-          this.flatTransactions = [];
-        }
-        this.serviceInProgress = false;
-      });
-    }
+    this.store.dispatch(new FilterUpdated({filter}));
   }
 }

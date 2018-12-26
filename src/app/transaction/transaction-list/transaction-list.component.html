@@ -4,10 +4,10 @@
   <app-mat-filter [technicalReferences]="technicalReferences" [businessReferences]="businessReferences"
     [exceptionReferences]="exceptionReferences" class="asml--padding-left-right-s mat-elevation-z1"
                   [style.background]="'white'" (filterChanged)="onFilterChange($event)"></app-mat-filter>
-  <mat-progress-bar *ngIf="serviceInProgress" mode="indeterminate"></mat-progress-bar>
+  <mat-progress-bar *ngIf="transactionListLoading$ | async" mode="indeterminate"></mat-progress-bar>
   <div class="asml--padding-left-right-s asml--margin-top-s">
     <div class="example-container  mat-elevation-z1">
-      <app-mat-table [rows]="flatTransactions"></app-mat-table>
+      <app-mat-table [rows]="flatTransactions$ | async"></app-mat-table>
     </div>
   </div>
 </div>

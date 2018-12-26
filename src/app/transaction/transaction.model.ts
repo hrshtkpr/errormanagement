@@ -29,6 +29,7 @@ export class EventASML {
   Context: Context;
   ExceptionDetail: ExceptionDetail;
 }
+
 export class FlatEvent {
   ID: string;
   JobKey: string;
@@ -51,6 +52,7 @@ export class FlatEvent {
   BusinessRefs: BusinessRefArr;
   DumpAnalysis: string;
   TransactionData: string;
+
   constructor(event: EventASML) {
     this.EventType = event.EventType;
     this.EventStatus = event.EventStatus;
@@ -66,12 +68,12 @@ export class FlatEvent {
       this.ServiceName = event.Context.ServiceName;
       this.TechnicalDomain = event.Context.TechnicalDomain;
       this.TransactionID = event.Context.TransactionID;
-      this.BusinessRefs = {BusinessRef : null};
+      this.BusinessRefs = {BusinessRef: null};
       if (event.Context.BusinessRefs != null && event.Context.BusinessRefs.BusinessRef != null
         && event.Context.BusinessRefs.BusinessRef.length > 0) {
         this.BusinessRefs.BusinessRef = [];
         for (const busRef of event.Context.BusinessRefs.BusinessRef) {
-          this.BusinessRefs.BusinessRef.push({Name: busRef.Name, Value: busRef.Value });
+          this.BusinessRefs.BusinessRef.push({Name: busRef.Name, Value: busRef.Value});
         }
       }
     }
@@ -95,7 +97,7 @@ export class Transaction {
   BusinessRefs: BusinessRefArr;
 }
 
-export class  BusinessRefArr {
+export class BusinessRefArr {
   BusinessRef: BusinessRef[];
 }
 
@@ -106,17 +108,20 @@ export class FlatTransaction {
   EndDateTime: string;
 
   constructor(transaction: Transaction) {
-    this.TransactionID = transaction.TransactionID;
-    this.Status = transaction.Status;
-    this.StartDateTime = transaction.StartDateTime;
-    this.EndDateTime = transaction.EndDateTime;
+    if (transaction) {
+      this.TransactionID = transaction.TransactionID;
+      this.Status = transaction.Status;
+      this.StartDateTime = transaction.StartDateTime;
+      this.EndDateTime = transaction.EndDateTime;
 
-    for (const businessRef of transaction.BusinessRefs.BusinessRef) {
-      this['' + businessRef.Name] = businessRef.Value;
+      if (transaction.BusinessRefs) {
+        for (const businessRef of transaction.BusinessRefs.BusinessRef) {
+          this['' + businessRef.Name] = businessRef.Value;
+        }
+      }
     }
   }
 }
-
 
 
 /*export class FlatEvent {
