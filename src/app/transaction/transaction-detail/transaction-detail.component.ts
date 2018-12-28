@@ -22,7 +22,7 @@ export class TransactionDetailComponent implements OnInit {
   entries$: Observable<FlatEvent[]>;
   entry$: Observable<FlatEvent>;
 
-  constructor(public dialog: MatDialog, private store: Store<AppState>, private transactionService: TransactionService) {
+  constructor(public dialog: MatDialog, private store: Store<AppState>) {
   }
 
   ngOnInit() {
@@ -49,31 +49,5 @@ export class TransactionDetailComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       // console.log('The dialog was closed');
     });
-  }
-
-  onDotClick(event: FlatEvent) {
-    if (event.DumpAnalysis == null && event.TransactionData == null) {
-      this.transactionService.getEvent(event.ID, {Type: event.EventType}).subscribe(response => {
-        if (response !== null) {
-          console.log(response);
-          if (response['Event'] != null && response['Event']['ExceptionDetail'] != null &&
-            response['Event']['ExceptionDetail']['DumpAnalysis'] != null) {
-            event.DumpAnalysis = decodeURIComponent(response['Event']['ExceptionDetail']['DumpAnalysis']);
-            event.TransactionData = decodeURIComponent(response['Event']['ExceptionDetail']['TransactionData']);
-          }
-          if (response['Event'] != null && response['Event']['LogDetail'] != null &&
-            response['Event']['LogDetail']['TransactionData'] != null) {
-            event.TransactionData = decodeURIComponent(response['Event']['LogDetail']['TransactionData']);
-          }
-          if (response['Event'] != null && response['Event']['Context'] != null &&
-            response['Event']['Context']['BusinessRefs'] != null) {
-            event.BusinessRefs = response['Event']['Context']['BusinessRefs'];
-            console.log(event);
-          }
-        }
-      });
-    }
-
-    // evt.stopPropagation();
   }
 }
