@@ -12,3 +12,14 @@ export const selectTransactionListLoading = createSelector(
   selectTransactionState,
   transaction => transaction.transactionListLoading
 );
+
+export const selectTransactionASMLEventList = createSelector(
+  selectTransactionState,
+  transaction => transaction.transactionASMLEventList
+);
+
+export const selectASMLEvent = createSelector(
+  selectTransactionState,
+  transaction => transaction.eventASML
+);
+

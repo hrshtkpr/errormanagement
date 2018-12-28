@@ -1,13 +1,13 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {TransactionService} from '../transaction.service';
-import {FlatTransaction, Transaction} from '../transaction.model';
+import {Component, OnInit} from '@angular/core';
+import {FlatTransaction} from '../transaction.model';
 import {Filter} from '../../shared/components/mat-filter/mat-filter.component';
 import {AppState} from '../../reducers';
 import {select, Store} from '@ngrx/store';
-import {FilterUpdated} from '../transaction.actions';
+import {FilterUpdated, TransactionSelected} from '../transaction.actions';
 import {selectTransactionList, selectTransactionListLoading} from '../transaction.selectors';
-import {Observable, of} from 'rxjs';
-import {map, tap} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-transaction-list',
@@ -21,7 +21,7 @@ export class TransactionListComponent implements OnInit {
   flatTransactions$: Observable<FlatTransaction[]>;
   transactionListLoading$: Observable<boolean>;
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>, private router: Router) {
   }
 
   ngOnInit() {
@@ -36,5 +36,10 @@ export class TransactionListComponent implements OnInit {
 
   onFilterChange(filter: Filter) {
     this.store.dispatch(new FilterUpdated({filter}));
+  }
+
+  onTransactionIDSelected(transactionID: string) {
+    this.store.dispatch(new TransactionSelected({transactionID: transactionID}));
+    this.router.navigate(['transaction', transactionID]);
   }
 }

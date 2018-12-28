@@ -1,9 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {TransactionService} from '../transaction.service';
-import {EventASML, FlatEvent} from '../transaction.model';
+import {FlatEvent} from '../transaction.model';
 import {MatDialog} from '@angular/material';
+import {select, Store} from '@ngrx/store';
+import {selectASMLEvent, selectTransactionASMLEventList} from '../transaction.selectors';
+import {filter, map, tap} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {AppState} from '../../reducers';
+import {TransactionService} from '../transaction.service';
 import {MatDialogComponent} from '../../shared/components/mat-dialog/mat-dialog.component';
+import {EventSelected} from '../transaction.actions';
 
 
 @Component({
@@ -14,44 +19,39 @@ import {MatDialogComponent} from '../../shared/components/mat-dialog/mat-dialog.
 export class TransactionDetailComponent implements OnInit {
   // expandEnabled: boolean = true;
   serviceInProgress: boolean;
-  TransactionID: string;
-  entries: FlatEvent[];
+  entries$: Observable<FlatEvent[]>;
+  entry$: Observable<FlatEvent>;
 
-  constructor(private route: ActivatedRoute, private transactionService: TransactionService, public dialog: MatDialog) {
+  constructor(public dialog: MatDialog, private store: Store<AppState>, private transactionService: TransactionService) {
   }
 
-  ngOnInit(): void {
-    this.serviceInProgress = true;
-    this.route.params.subscribe(params => {
-      this.TransactionID = params['TransactionID'];
-      this.transactionService.getEvents({TransactionID: this.TransactionID}).subscribe(response => {
-        if (response['Events']['Event'] !== null) {
-          const events: EventASML[] = response['Events']['Event'];
-          console.log(events);
-          const flatEvents: FlatEvent[] = events.filter(event => (!(event.EventType === 'L' && (event.EventStatus === 'Error-Entrypoint'
-            || event.EventStatus === 'Warning-Entrypoint'))))
-            .map(event => new FlatEvent(event));
-          console.log(flatEvents);
-          this.entries = flatEvents;
-        } else {
-          this.entries = null;
-        }
-        this.serviceInProgress = false;
-      });
+  ngOnInit() {
+    this.entries$ = this.store.pipe(
+      select(selectTransactionASMLEventList),
+      tap(response => response.filter(asmlEvt => (!(asmlEvt.EventType === 'L' && (asmlEvt.EventStatus === 'Error-Entrypoint'
+        || asmlEvt.EventStatus === 'Warning-Entrypoint'))))),
+      map(response => response.map(evt => new FlatEvent(evt)))
+    );
+  }
 
+  onEntrySelected(event: FlatEvent) {
+    this.store.dispatch(new EventSelected({eventID: event.ID, eventType: event.EventType}));
+  }
+
+  onDialogSelected(event) {
+    this.store.dispatch(new EventSelected({eventID: event.flatEvent.ID, eventType: event.flatEvent.EventType}));
+
+    const dialogRef = this.dialog.open(MatDialogComponent, {
+      // width: '500px',
+      data: {title: event.title}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // console.log('The dialog was closed');
     });
   }
 
-  onHeaderClick(event) {
-    // if (!this.expandEnabled) {
-    //   event.stopPropagation();
-    // }
-
-    // event.stopPropagation();
-  }
-
-  onDotClick(evt, event: FlatEvent) {
-    console.log('Dot Clicked');
+  onDotClick(event: FlatEvent) {
     if (event.DumpAnalysis == null && event.TransactionData == null) {
       this.transactionService.getEvent(event.ID, {Type: event.EventType}).subscribe(response => {
         if (response !== null) {
@@ -75,42 +75,5 @@ export class TransactionDetailComponent implements OnInit {
     }
 
     // evt.stopPropagation();
-  }
-
-
-  onExpandEntry(expanded, index) {
-    console.log(`Expand status of entry #${index} changed to ${expanded}`);
-    // expanded.stopPropagation();
-  }
-
-
-  openDialog(title: string, flatEvent: FlatEvent): void {
-
-    if (flatEvent.DumpAnalysis == null && flatEvent.TransactionData == null) {
-      this.transactionService.getEvent(flatEvent.ID, {Type: flatEvent.EventType}).subscribe(response => {
-        if (response !== null) {
-          console.log(response);
-          if (response['Event'] != null && response['Event']['ExceptionDetail'] != null &&
-            response['Event']['ExceptionDetail']['DumpAnalysis'] != null) {
-            flatEvent.DumpAnalysis = decodeURIComponent(response['Event']['ExceptionDetail']['DumpAnalysis']);
-            flatEvent.TransactionData = decodeURIComponent(response['Event']['ExceptionDetail']['TransactionData']);
-          }
-          if (response['Event'] != null && response['Event']['LogDetail'] != null &&
-            response['Event']['LogDetail']['TransactionData'] != null) {
-            flatEvent.TransactionData = decodeURIComponent(response['Event']['LogDetail']['TransactionData']);
-          }
-        }
-      });
-    }
-
-
-    const dialogRef = this.dialog.open(MatDialogComponent, {
-      // width: '500px',
-      data: {title: title, flatEvent: flatEvent}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
   }
 }

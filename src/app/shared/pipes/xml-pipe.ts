@@ -7,8 +7,7 @@ export class XmlPipe implements PipeTransform {
   transform(value: string): string {
     try {
       if (value && value !== 'undefined') {
-        const x = this.xml(value, 5);
-        console.log(x);
+        const x = this.xml(decodeURIComponent(value), 5);
         return x;
       } else {
         return 'No data found';

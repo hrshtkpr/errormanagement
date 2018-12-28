@@ -19,6 +19,13 @@ export class ExceptionDetail {
   Code: string;
   Message: string;
   DumpAnalysis: string;
+  TransactionData: string;
+}
+
+export class LogDetail {
+  LogMessage: string;
+  Status: string;
+  TransactionData: string;
 }
 
 export class EventASML {
@@ -27,6 +34,7 @@ export class EventASML {
   EventType: string;
   EventStatus: string;
   Context: Context;
+  LogDetail: LogDetail;
   ExceptionDetail: ExceptionDetail;
 }
 
@@ -83,6 +91,11 @@ export class FlatEvent {
       this.Type = event.ExceptionDetail.Type;
       this.Code = event.ExceptionDetail.Code;
       this.Message = event.ExceptionDetail.Message;
+      this.DumpAnalysis = event.ExceptionDetail.DumpAnalysis;
+      this.TransactionData = event.ExceptionDetail.TransactionData;
+    }
+    if (event.LogDetail != null) {
+      this.TransactionData = event.LogDetail.TransactionData;
     }
 
   }

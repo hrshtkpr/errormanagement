@@ -7,7 +7,7 @@
   <mat-progress-bar *ngIf="transactionListLoading$ | async" mode="indeterminate"></mat-progress-bar>
   <div class="asml--padding-left-right-s asml--margin-top-s">
     <div class="example-container  mat-elevation-z1">
-      <app-mat-table [rows]="flatTransactions$ | async"></app-mat-table>
+      <app-mat-table [rows]="flatTransactions$ | async" (transactionIDSelected)="onTransactionIDSelected($event)"></app-mat-table>
     </div>
   </div>
 </div>

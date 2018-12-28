@@ -30,7 +30,6 @@ import {HttpClientModule} from '@angular/common/http';
 import {XmlPipe} from './pipes/xml-pipe';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatCardComponent} from './components/mat-card/mat-card.component';
-import {MatTableComponent} from './components/mat-table/mat-table.component';
 import {RouterModule} from '@angular/router';
 import { MatFilterComponent } from './components/mat-filter/mat-filter.component';
 
@@ -40,7 +39,6 @@ import { MatFilterComponent } from './components/mat-filter/mat-filter.component
     SummaryPipe,
     XmlPipe,
     MatCardComponent,
-    MatTableComponent,
     MatFilterComponent],
   imports: [
     MatTableModule,
@@ -99,7 +97,6 @@ import { MatFilterComponent } from './components/mat-filter/mat-filter.component
     MatFlatTreeComponent,
     FlexLayoutModule,
     MatCardComponent,
-    MatTableComponent,
     RouterModule,
     MatFilterComponent
   ]

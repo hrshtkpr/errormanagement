@@ -9,11 +9,15 @@ import {StoreModule} from '@ngrx/store';
 import * as fromTransactionReducer from './transaction.reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {TransactionEffects} from './transaction.effects';
+import {MatTableComponent} from './transaction-list/mat-table/mat-table.component';
+import { MatTimelineComponent } from './transaction-detail/mat-timeline/mat-timeline.component';
 
 @NgModule({
   declarations: [
     TransactionListComponent,
-    TransactionDetailComponent
+    TransactionDetailComponent,
+    MatTableComponent,
+    MatTimelineComponent
   ],
   imports: [
     TransactionRoutingModule,
