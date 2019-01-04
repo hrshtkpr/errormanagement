@@ -8,7 +8,8 @@ import {Observable} from 'rxjs';
 import {AppState} from '../../reducers';
 import {TransactionService} from '../transaction.service';
 import {MatDialogComponent} from '../../shared/components/mat-dialog/mat-dialog.component';
-import {EventSelected} from '../transaction.actions';
+import {EventSelected, TransactionSelected} from '../transaction.actions';
+import {ActivatedRoute} from '@angular/router';
 
 
 @Component({
@@ -21,16 +22,18 @@ export class TransactionDetailComponent implements OnInit {
   serviceInProgress: boolean;
   entries$: Observable<FlatEvent[]>;
   entry$: Observable<FlatEvent>;
-
-  constructor(public dialog: MatDialog, private store: Store<AppState>) {
+  constructor(public dialog: MatDialog, private store: Store<AppState>, private readonly _activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
+    this.store.dispatch(new TransactionSelected({transactionID: this._activatedRoute.snapshot.params['TransactionID']}));
+
     this.entries$ = this.store.pipe(
       select(selectTransactionASMLEventList),
-      tap(response => response.filter(asmlEvt => (!(asmlEvt.EventType === 'L' && (asmlEvt.EventStatus === 'Error-Entrypoint'
-        || asmlEvt.EventStatus === 'Warning-Entrypoint'))))),
-      map(response => response.map(evt => new FlatEvent(evt)))
+      map(response => response.filter(asmlEvt => (asmlEvt.EventType === 'E' ||
+                                                          (asmlEvt.EventType === 'L' && asmlEvt.EventStatus !== 'Warning-Entrypoint'
+                                                          && asmlEvt.EventStatus !== 'Error-Entrypoint')))
+                                      .map(evt => new FlatEvent(evt)))
     );
   }
 

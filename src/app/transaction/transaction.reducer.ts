@@ -5,8 +5,10 @@ import {EventASML, Transaction} from './transaction.model';
 
 export interface TransactionState {
   filter: Filter;
+  pageData: {pageIndex: string, pageSize: string, startPosition: string};
   transactionListLoading: boolean;
   transactionList: Transaction[];
+  transactionsCount: number;
   transactionID: string;
   transactionASMLEventList: EventASML[];
   eventID: string;
@@ -16,8 +18,10 @@ export interface TransactionState {
 
 export const initialTransactionState: TransactionState = {
   filter: {},
+  pageData: null,
   transactionListLoading: false,
   transactionList: [],
+  transactionsCount: 0,
   transactionID: '',
   transactionASMLEventList: [],
   eventID: '',
@@ -31,12 +35,14 @@ export function transactionReducer(state = initialTransactionState, action: Tran
       return {
         ...state,
         filter: action.payload.filter,
+        pageData: action.payload.pageData,
         transactionListLoading: true
       };
     case TransactionActionTypes.TransactionsLoaded:
       return {
         ...state,
         transactionList: action.payload.transactionList,
+        transactionsCount: action.payload.transactionsCount,
         transactionListLoading: false
       };
     case TransactionActionTypes.TransactionSelected:

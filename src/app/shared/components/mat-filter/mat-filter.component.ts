@@ -20,7 +20,7 @@ export class MatFilterComponent implements OnChanges {
   @Input() businessReferences: string[];
   @Input() exceptionReferences: string[];
   @Output() filterChanged = new EventEmitter();
-  filter: Filter;
+  @Input() filter: Filter;
   chips: Chip[];
   selectedBusinessRefName: string;
   selectedTechnicalRefName: string;
@@ -35,6 +35,7 @@ export class MatFilterComponent implements OnChanges {
   }
 
   ngOnChanges() {
+    this.filterToChips();
   }
 
   removeCriteria(name: string) {

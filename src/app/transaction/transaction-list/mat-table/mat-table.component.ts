@@ -8,14 +8,16 @@ import {MatPaginator, MatTableDataSource} from '@angular/material';
 })
 export class MatTableComponent implements OnInit, OnChanges {
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
+  @Input() rowCount: number;
   @Input() rows: any[];
   @Output() transactionIDSelected: EventEmitter<string>;
+  @Output() pageChanged: EventEmitter<{pageIndex: string, pageSize: string, startPosition: string}>;
   displayedColumns = [];
   dataSource: MatTableDataSource<any>;
 
   constructor() {
     this.transactionIDSelected = new EventEmitter(true);
+    this.pageChanged = new EventEmitter(true);
   }
 
   onTransactionIDClicked(transactionID: string) {
@@ -24,8 +26,19 @@ export class MatTableComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.dataSource = new MatTableDataSource(this.rows);
+    this._registerObservables();
   }
 
+  private _registerObservables() {
+    this.paginator.page.subscribe(
+      () => {
+        const pageIndex: string = this.paginator.pageIndex.toString();
+        const pageSize: string = this.paginator.pageSize.toString();
+        this.pageChanged.emit({pageIndex: pageIndex, pageSize: pageSize,
+          startPosition: (this.paginator.pageIndex * this.paginator.pageSize).toString()});
+      }
+    );
+  }
   ngOnChanges(changes: SimpleChanges): void {
     this._refreshTableStructure();
   }
@@ -50,8 +63,6 @@ export class MatTableComponent implements OnInit, OnChanges {
 
     if (this.dataSource != null && this.dataSource !== undefined) {
       this.dataSource.data = this.rows;
-      this.dataSource.paginator = this.paginator;
     }
-
   }
 }

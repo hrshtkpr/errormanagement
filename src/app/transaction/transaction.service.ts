@@ -12,9 +12,14 @@ export class TransactionService {
 
   constructor(private readonly httpClient: HttpClient ) { }
 
-  getTransactions(filter: Filter)  {
+  getTransactions(filter: Filter, payLoad: {pageIndex: string, pageSize: string, startPosition: string} )  {
     const url = 'http://localhost:10526/transactions';
-    return this.httpClient.get(url, {params: {...filter}});
+    const  params = {
+      ...filter,
+       StartPosition: payLoad.startPosition,
+       NumberOfItems: payLoad.pageSize
+     };
+    return this.httpClient.get(url, {params: params});
   }
 
   getEvents(filter: Filter)  {

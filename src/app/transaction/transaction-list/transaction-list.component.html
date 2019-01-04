@@ -3,11 +3,12 @@
                           class="asml--padding-left-right-s mat-elevation-z1"></app-transaction-filter> -->
   <app-mat-filter [technicalReferences]="technicalReferences" [businessReferences]="businessReferences"
     [exceptionReferences]="exceptionReferences" class="asml--padding-left-right-s mat-elevation-z1"
-                  [style.background]="'white'" (filterChanged)="onFilterChange($event)"></app-mat-filter>
+                  [style.background]="'white'" (filterChanged)="onFilterChange($event)" [filter]="filter$ | async"></app-mat-filter>
   <mat-progress-bar *ngIf="transactionListLoading$ | async" mode="indeterminate"></mat-progress-bar>
   <div class="asml--padding-left-right-s asml--margin-top-s">
     <div class="example-container  mat-elevation-z1">
-      <app-mat-table [rows]="flatTransactions$ | async" (transactionIDSelected)="onTransactionIDSelected($event)"></app-mat-table>
+      <app-mat-table [rows]="flatTransactions$ | async" (transactionIDSelected)="onTransactionIDSelected($event)"
+                     (pageChanged)="onPageChanged($event)" [rowCount]="selectTransactionCount$ | async"></app-mat-table>
     </div>
   </div>
 </div>
