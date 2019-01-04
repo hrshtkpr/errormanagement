@@ -8,6 +8,11 @@ export const selectTransactionList = createSelector(
   transaction => transaction.transactionList
 );
 
+export const selectTransactionCount = createSelector(
+  selectTransactionState,
+  transaction => transaction.transactionsCount
+);
+
 export const selectTransactionListLoading = createSelector(
   selectTransactionState,
   transaction => transaction.transactionListLoading
@@ -23,3 +28,7 @@ export const selectASMLEvent = createSelector(
   transaction => transaction.eventASML
 );
 
+export const selectFilter = createSelector(
+  selectTransactionState,
+  transaction => transaction.filter
+);

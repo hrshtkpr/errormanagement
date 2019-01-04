@@ -14,7 +14,7 @@ export enum TransactionActionTypes {
 export class FilterUpdated implements Action {
   readonly type = TransactionActionTypes.FilterUpdated;
 
-  constructor(public payload: { filter: Filter }) {
+  constructor(public payload: { filter: Filter, pageData: {pageIndex: string, pageSize: string, startPosition: string} }) {
 
   }
 }
@@ -22,7 +22,7 @@ export class FilterUpdated implements Action {
 export class TransactionsLoaded implements Action {
   readonly type = TransactionActionTypes.TransactionsLoaded;
 
-  constructor(public payload: { transactionList: Transaction[] }) {
+  constructor(public payload: { transactionList: Transaction[], transactionsCount: number }) {
 
   }
 }

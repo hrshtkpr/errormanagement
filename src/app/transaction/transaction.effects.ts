@@ -19,10 +19,10 @@ export class TransactionEffects {
   @Effect()
   loadTransactions$ = this.actions$.pipe(
     ofType<FilterUpdated>(TransactionActionTypes.FilterUpdated),
-    switchMap(action => this.transactionService.getTransactions(action.payload.filter)),
+    switchMap(action => this.transactionService.getTransactions(action.payload.filter, action.payload.pageData)),
     map(response => (response['Transactions'] && response['Transactions']['Transaction']) ?
-      (new TransactionsLoaded({transactionList: response['Transactions']['Transaction']})) :
-      (new TransactionsLoaded({transactionList: []}))
+      (new TransactionsLoaded({transactionList: response['Transactions']['Transaction'], transactionsCount: response['TotalCount']})) :
+      (new TransactionsLoaded({transactionList: [], transactionsCount: 0 }))
     )
   );
 

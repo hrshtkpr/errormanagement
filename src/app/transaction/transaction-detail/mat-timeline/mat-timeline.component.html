@@ -1,7 +1,7 @@
 <mat-progress-bar *ngIf="serviceInProgress" mode="indeterminate"></mat-progress-bar>
 <div *ngIf="!serviceInProgress">
   <mgl-timeline [toggle]="false" [alternate]="false">
-    <mgl-timeline-entry *ngFor="let entry of entries let i = index;"
+    <mgl-timeline-entry *ngFor="let entry of _entries let i = index;"
                         (expand)="onExpandEntry($event, i)">
       <mgl-timeline-entry-header (click)="onHeaderClick($event)">
         <div><span>{{entry.ComponentName.substring(1+entry.ComponentName.indexOf('-'))}}</span> > <span>{{entry.ServiceName}}</span>
