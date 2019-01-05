@@ -25,14 +25,13 @@ import {Router} from '@angular/router';
 export class TransactionListComponent implements OnInit {
   technicalReferences = ['TransactionID', 'BusinessDomain', 'TechnicalDomain', 'Component', 'Service', 'BusinessOperation'];
   exceptionReferences = ['ExceptionCategory', 'ExceptionType', 'ExceptionCode', 'ExceptionMessage'];
-  businessReferences = ['BusinessReference1', 'BusinessReference2'];
   flatTransactions$: Observable<FlatTransaction[]>;
   _pageData: { pageIndex: string, pageSize: string, startPosition: string };
   _filter: Filter;
   transactionListLoading$: Observable<boolean>;
   selectTransactionCount$: Observable<number>;
   filter$: Observable<Filter>;
-  businessReferences$: Observable<string[]>;
+  businessReferences$: Observable<BusinessRef[]>;
   _technicalReferenceSelected$: Observable<Filter>;
 
   constructor(private store: Store<AppState>, private router: Router) {
@@ -62,7 +61,8 @@ export class TransactionListComponent implements OnInit {
     );
     this.businessReferences$ = this.store.pipe(
       select(selectBusinessReferences),
-      map(response => response && response.map(busRef => busRef.Name))
+      // map(response => response && response.map(busRef => busRef.Name)),
+      // map( response => response && response.length > 0 && Array.from(new Set(response)))
     );
 
     combineLatest(

@@ -9,12 +9,17 @@
   </mat-form-field>
 
   <mat-form-field fxFlex>
-    <mat-select placeholder="Business Reference"  [(ngModel)]="selectedBusinessRefName">
-      <mat-option  *ngFor="let businessReference of businessReferences" [value]="businessReference">{{businessReference}}</mat-option>
+    <mat-select placeholder="Business Reference" [(ngModel)]="selectedBusinessRef" (valueChange)="onBusinessRefNameChanged($event)">
+      <mat-option  *ngFor="let businessReferenceName of businessReferencesNames" [value]="businessReferenceName">{{businessReferenceName}}</mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field fxFlex>
+  <!-- <mat-form-field fxFlex>
     <input #businessRef matInput placeholder="Value" (keyup.enter)="addCriteria('BusinessRef',businessRef.value)" (blur)="addCriteria('BusinessRef',businessRef.value)">
+  </mat-form-field> -->
+  <mat-form-field fxFlex>
+    <mat-select #businessRefVal placeholder="Business Reference Value"  [(ngModel)]="selectedBusinessRefValue" (valueChange)="addCriteria('BusinessRef',businessRefVal.value)">
+      <mat-option  *ngFor="let businessReferenceValue of businessReferencesValues" [value]="businessReferenceValue">{{businessReferenceValue}}</mat-option>
+    </mat-select>
   </mat-form-field>
 
   <mat-form-field fxFlex>

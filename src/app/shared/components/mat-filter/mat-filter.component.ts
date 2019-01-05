@@ -1,4 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
+import {BusinessRef} from '../../../transaction/transaction.model';
+import {map} from 'rxjs/operators';
 
 
 export class Filter {
@@ -17,12 +19,15 @@ class Chip {
 export class MatFilterComponent implements OnChanges {
   // ADD INOUT PROPERTY FOR INITIALIZING FILTER
   @Input() technicalReferences: string[];
-  @Input() businessReferences: string[];
+  @Input() businessReferences: BusinessRef[];
   @Input() exceptionReferences: string[];
   @Output() filterChanged = new EventEmitter();
   @Input() filter: Filter;
   chips: Chip[];
-  selectedBusinessRefName: string;
+  businessReferencesNames: string[];
+  businessReferencesValues: string[];
+  selectedBusinessRef: string;
+  selectedBusinessRefValue: string;
   selectedTechnicalRefName: string;
   selectedExceptionRefName: string;
 
@@ -36,6 +41,10 @@ export class MatFilterComponent implements OnChanges {
 
   ngOnChanges() {
     this.filterToChips();
+    this.businessReferencesNames = this.businessReferences && Array.from (new Set (this.businessReferences.map( busref => busref && busref.Name)));
+
+    // map(response => response && response.map(busRef => busRef.Name)),
+    // map( response => response && response.length > 0 && Array.from(new Set(response)))
   }
 
   removeCriteria(name: string) {
@@ -44,13 +53,19 @@ export class MatFilterComponent implements OnChanges {
     this.filterToChips();
     this.filterChanged.emit(this.filter);
   }
+  onBusinessRefNameChanged(businessRefName: string) {
+    // console.log(businessRef);
+    this.businessReferencesValues = this.businessReferences.filter(busRef => busRef.Name === businessRefName)
+      .map(busRef => busRef.Value);
+  }
+
 
   addCriteria(name: string, value: string) {
     if (value.length > 0) {
-      if (name === 'BusinessRef' && this.selectedBusinessRefName !== undefined && this.selectedBusinessRefName.length > 0
-        && (this.getChip(this.selectedBusinessRefName) == null || value !== this.getChip(this.selectedBusinessRefName).value)) {
-        delete this.filter['BusinessRef.' + this.selectedBusinessRefName];
-        this.filter['BusinessRef.' + this.selectedBusinessRefName] = value;
+      if (name === 'BusinessRef' && this.selectedBusinessRef !== undefined && this.selectedBusinessRef.length > 0
+        && (this.getChip(this.selectedBusinessRef) == null || value !== this.getChip(this.selectedBusinessRef).value)) {
+        delete this.filter['BusinessRef.' + this.selectedBusinessRef];
+        this.filter['BusinessRef.' + this.selectedBusinessRef] = value;
         this.filterChanged.emit(this.filter);
       } else if (name === 'TechnicalRef' && this.selectedTechnicalRefName !== undefined && this.selectedTechnicalRefName.length > 0
         && (this.getChip(this.selectedTechnicalRefName) == null || value !== this.getChip(this.selectedTechnicalRefName).value)) {
