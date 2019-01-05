@@ -19,7 +19,7 @@ export class BodyComponent implements OnInit {
       return;
     }
     const route = '/' + node.name.toLowerCase();
-    console.log(route);
+    // console.log(route);
     this._router.navigate([route]);
   }
 }

@@ -39,7 +39,7 @@ export class MatTimelineComponent implements OnInit, OnChanges {
         if (this.entriesInput[idx] && this.entriesInput[idx].BusinessRefs && this.entriesInput[idx].BusinessRefs.BusinessRef &&
           this.entriesInput[idx].BusinessRefs.BusinessRef.length > 0) {
           this._entries[idx].BusinessRefs.BusinessRef = val.BusinessRefs.BusinessRef;
-          console.log(this._entries[idx].BusinessRefs.BusinessRef);
+          // console.log(this._entries[idx].BusinessRefs.BusinessRef);
         }
       });
     } else { // when user selects a transaction from transaction list for the first time
@@ -56,7 +56,7 @@ export class MatTimelineComponent implements OnInit, OnChanges {
   }
 
   onExpandEntry(event: FlatEvent, idx: number) {
-    // console.log(`Expand status of entry #${idx} changed to ${expanded}`);
+    // // console.log(`Expand status of entry #${idx} changed to ${expanded}`);
   }
 
   openDialog(title: string, flatEvent: FlatEvent): void {

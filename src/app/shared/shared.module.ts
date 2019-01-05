@@ -32,12 +32,14 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatCardComponent} from './components/mat-card/mat-card.component';
 import {RouterModule} from '@angular/router';
 import { MatFilterComponent } from './components/mat-filter/mat-filter.component';
+import {ReplacePipe} from './pipes/replace-pipe';
 
 @NgModule({
   declarations: [
     MatFlatTreeComponent,
     SummaryPipe,
     XmlPipe,
+    ReplacePipe,
     MatCardComponent,
     MatFilterComponent],
   imports: [
@@ -93,6 +95,7 @@ import { MatFilterComponent } from './components/mat-filter/mat-filter.component
     FormsModule,
     HttpClientModule,
     XmlPipe,
+    ReplacePipe,
     SummaryPipe,
     MatFlatTreeComponent,
     FlexLayoutModule,

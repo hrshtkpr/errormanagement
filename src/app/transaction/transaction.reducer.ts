@@ -1,6 +1,6 @@
 import {Filter} from '../shared/components/mat-filter/mat-filter.component';
 import {TransactionActions, TransactionActionTypes} from './transaction.actions';
-import {EventASML, Transaction} from './transaction.model';
+import {BusinessRef, EventASML, Transaction} from './transaction.model';
 
 
 export interface TransactionState {
@@ -14,6 +14,7 @@ export interface TransactionState {
   eventID: string;
   eventType: string;
   eventASML: EventASML;
+  businessReferences: BusinessRef[];
 }
 
 export const initialTransactionState: TransactionState = {
@@ -27,6 +28,7 @@ export const initialTransactionState: TransactionState = {
   eventID: '',
   eventType: '',
   eventASML: null,
+  businessReferences: null
 };
 
 export function transactionReducer(state = initialTransactionState, action: TransactionActions): TransactionState {
@@ -74,6 +76,15 @@ export function transactionReducer(state = initialTransactionState, action: Tran
         ...state,
         transactionASMLEventList: tempTransactionASMLEventList,
         eventASML: action.payload.eventASML
+      };
+    case TransactionActionTypes.BusinessReferencesLoaded:
+      return {
+        ...state,
+        businessReferences: action.payload.businessReferences,
+      };
+    case TransactionActionTypes.TechnicalReferenceUpdated:
+      return {
+        ...state
       };
     default:
       return state;

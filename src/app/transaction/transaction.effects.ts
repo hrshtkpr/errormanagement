@@ -2,9 +2,10 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {TransactionService} from './transaction.service';
 import {
+  BusinessReferencesLoaded,
   EventLoaded,
   EventSelected,
-  FilterUpdated,
+  FilterUpdated, TechnicalReferenceUpdated,
   TransactionActionTypes,
   TransactionLoaded,
   TransactionSelected,
@@ -27,10 +28,19 @@ export class TransactionEffects {
   );
 
   @Effect()
+  loadBusinessReferences$ = this.actions$.pipe(
+    ofType<FilterUpdated>(TransactionActionTypes.TechnicalReferenceUpdated),
+    switchMap(action => this.transactionService.getBusinessReferences(action.payload.filter)),
+    map(response => (response['BusinessRefs'] && response['BusinessRefs']['BusinessRef']) ?
+      (new BusinessReferencesLoaded({businessReferences: response['BusinessRefs']['BusinessRef']})) :
+      (new BusinessReferencesLoaded({businessReferences: []}))
+    )
+  );
+
+  @Effect()
   loadTransaction$ = this.actions$.pipe(
     ofType<TransactionSelected>(TransactionActionTypes.TransactionSelected),
     switchMap(action => this.transactionService.getEvents({TransactionID: action.payload.transactionID})),
-    tap(response => console.log(response)),
     map(response => (response['Events'] && response['Events']['Event']) ?
       (new TransactionLoaded({transactionASMLEventList: response['Events']['Event']})) :
       (new TransactionLoaded({transactionASMLEventList: []}))
@@ -41,7 +51,6 @@ export class TransactionEffects {
   loadEvent$ = this.actions$.pipe(
     ofType<EventSelected>(TransactionActionTypes.EventSelected),
     switchMap(action => this.transactionService.getEvent(action.payload.eventID, {Type: action.payload.eventType})),
-    tap(response => console.log(response)),
     map(response => (response['Event']) ?
       (new EventLoaded({eventASML: response['Event']})) :
       (new EventLoaded({eventASML: null}))

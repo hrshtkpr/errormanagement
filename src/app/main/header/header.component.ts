@@ -13,7 +13,7 @@ export class HeaderComponent implements OnInit {
   sideNavToggle() {
     this.sideNavOpen = !this.sideNavOpen
     this.toggleSideNav.emit(this.sideNavOpen);
-    console.log(this.sideNavOpen);
+    // console.log(this.sideNavOpen);
   }
 
   constructor() {

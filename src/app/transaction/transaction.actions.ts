@@ -1,6 +1,6 @@
 import {Action} from '@ngrx/store';
 import {Filter} from '../shared/components/mat-filter/mat-filter.component';
-import {EventASML, Transaction} from './transaction.model';
+import {BusinessRef, EventASML, Transaction} from './transaction.model';
 
 export enum TransactionActionTypes {
   FilterUpdated = '[Transaction List Page] Filter Updated',
@@ -9,6 +9,8 @@ export enum TransactionActionTypes {
   TransactionLoaded = '[Transaction API] Transaction Loaded',
   EventSelected = '[Transaction Detail Page] Event Selected',
   EventLoaded = '[Transaction Detail Page] Event Loaded',
+  BusinessReferencesLoaded = '[Transaction API] Business References Loaded',
+  TechnicalReferenceUpdated = '[Transaction List Page] Technical Reference Updated In Filter'
 }
 
 export class FilterUpdated implements Action {
@@ -59,9 +61,27 @@ export class EventLoaded implements Action {
   }
 }
 
+export class BusinessReferencesLoaded implements Action {
+  readonly type = TransactionActionTypes.BusinessReferencesLoaded ;
+
+  constructor(public payload: { businessReferences: BusinessRef[]}) {
+
+  }
+}
+
+export class TechnicalReferenceUpdated implements Action {
+  readonly type = TransactionActionTypes.TechnicalReferenceUpdated;
+
+  constructor(public payload: { filter: Filter}) {
+
+  }
+}
+
 export type TransactionActions = FilterUpdated |
   TransactionsLoaded |
   TransactionSelected |
   TransactionLoaded |
   EventSelected |
-  EventLoaded;
+  EventLoaded |
+  BusinessReferencesLoaded |
+  TechnicalReferenceUpdated;

@@ -40,6 +40,7 @@ export class MatFilterComponent implements OnChanges {
 
   removeCriteria(name: string) {
     delete this.filter[name];
+    // this.deleteChip({name: name, value: null});
     this.filterToChips();
     this.filterChanged.emit(this.filter);
   }
@@ -99,11 +100,12 @@ export class MatFilterComponent implements OnChanges {
   filterToChips(): void {
     this.chips.splice(0, this.chips.length);
     for (const criteria in this.filter) {
-      if (criteria.startsWith('BusinessRef.')) {
-        this.upsertChip({name: criteria.substring('BusinessRef.'.length - 1 ), value: this.filter[criteria]});
-      } else {
-        this.upsertChip({name: criteria, value: this.filter[criteria]});
-      }
+      this.upsertChip({name: criteria, value: this.filter[criteria]});
+      /*      if (criteria.startsWith('BusinessRef.')) {
+              this.upsertChip({name: criteria.substring('BusinessRef.'.length), value: this.filter[criteria]});
+            } else {
+              this.upsertChip({name: criteria, value: this.filter[criteria]});
+            }*/
     }
   }
 

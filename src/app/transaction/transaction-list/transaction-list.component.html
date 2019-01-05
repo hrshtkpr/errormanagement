@@ -1,7 +1,7 @@
 <div fxLayout="column">
   <!--<app-transaction-filter (filterChanged)="onFilterChange($event)" [style.background]="'white'"
                           class="asml--padding-left-right-s mat-elevation-z1"></app-transaction-filter> -->
-  <app-mat-filter [technicalReferences]="technicalReferences" [businessReferences]="businessReferences"
+  <app-mat-filter [technicalReferences]="technicalReferences" [businessReferences]="businessReferences$ | async"
     [exceptionReferences]="exceptionReferences" class="asml--padding-left-right-s mat-elevation-z1"
                   [style.background]="'white'" (filterChanged)="onFilterChange($event)" [filter]="filter$ | async"></app-mat-filter>
   <mat-progress-bar *ngIf="transactionListLoading$ | async" mode="indeterminate"></mat-progress-bar>

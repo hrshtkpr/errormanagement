@@ -32,3 +32,44 @@ export const selectFilter = createSelector(
   selectTransactionState,
   transaction => transaction.filter
 );
+
+export const selectBusinessReferences = createSelector(
+  selectTransactionState,
+  transaction => transaction.businessReferences
+);
+
+export const selectService = createSelector(
+  selectTransactionState,
+  transaction => transaction.filter['Service']
+/*  transaction => {
+    const technicalFilter = {Service: transaction.filter['Service']};
+    console.log(technicalFilter);
+    return technicalFilter;
+  }*/
+  // (({ a, c }) => ({ a, c }))(object)
+);
+
+export const selectComponent = createSelector(
+  selectTransactionState,
+  transaction => transaction.filter['Component']
+);
+
+export const selectTechnicalDomain = createSelector(
+  selectTransactionState,
+  transaction => transaction.filter['TechnicalDomain']
+);
+
+export const selectBusinessDomain = createSelector(
+  selectTransactionState,
+  transaction => transaction.filter['BusinessDomain']
+);
+
+export const selectBusinessOperation = createSelector(
+  selectTransactionState,
+  transaction => transaction.filter['BusinessOperation']
+);
+
+export const selectBusinessConcept = createSelector(
+  selectTransactionState,
+  transaction => transaction.filter['BusinessConcept']
+);

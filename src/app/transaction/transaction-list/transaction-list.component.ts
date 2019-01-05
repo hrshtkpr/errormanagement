@@ -1,11 +1,19 @@
 import {Component, OnInit} from '@angular/core';
-import {FlatTransaction} from '../transaction.model';
+import {BusinessRef, FlatEvent, FlatTransaction} from '../transaction.model';
 import {Filter} from '../../shared/components/mat-filter/mat-filter.component';
 import {AppState} from '../../reducers';
 import {select, Store} from '@ngrx/store';
-import {FilterUpdated} from '../transaction.actions';
-import {selectFilter, selectTransactionCount, selectTransactionList, selectTransactionListLoading} from '../transaction.selectors';
-import {Observable} from 'rxjs';
+import {FilterUpdated, TechnicalReferenceUpdated} from '../transaction.actions';
+import {
+  selectBusinessConcept,
+  selectBusinessDomain, selectBusinessOperation,
+  selectBusinessReferences, selectComponent,
+  selectFilter, selectService, selectTechnicalDomain,
+  selectTransactionCount,
+  selectTransactionList,
+  selectTransactionListLoading
+} from '../transaction.selectors';
+import {combineLatest, Observable} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 import {Router} from '@angular/router';
 
@@ -24,6 +32,8 @@ export class TransactionListComponent implements OnInit {
   transactionListLoading$: Observable<boolean>;
   selectTransactionCount$: Observable<number>;
   filter$: Observable<Filter>;
+  businessReferences$: Observable<string[]>;
+  _technicalReferenceSelected$: Observable<Filter>;
 
   constructor(private store: Store<AppState>, private router: Router) {
     this._pageData = {pageIndex: '0', pageSize: '5', startPosition: '0'};
@@ -33,7 +43,7 @@ export class TransactionListComponent implements OnInit {
     this.filter$ = this.store.pipe(
       select(selectFilter),
       tap(response => {
-        console.log(response);
+        // console.log(response);
         this._filter = response;
       })
     );
@@ -44,12 +54,25 @@ export class TransactionListComponent implements OnInit {
     this.selectTransactionCount$ = this.store.pipe(
       select(selectTransactionCount),
       tap(response => {
-        console.log(response);
+        // console.log(response);
       })
     );
     this.transactionListLoading$ = this.store.pipe(
       select(selectTransactionListLoading)
     );
+    this.businessReferences$ = this.store.pipe(
+      select(selectBusinessReferences),
+      map(response => response && response.map(busRef => busRef.Name))
+    );
+
+    combineLatest(
+      this.store.select(selectService),
+      this.store.select(selectComponent),
+      this.store.select(selectTechnicalDomain),
+      this.store.select(selectBusinessDomain),
+      this.store.select(selectBusinessOperation),
+      this.store.select(selectBusinessConcept),
+    ).pipe(tap( response => this.store.dispatch(new TechnicalReferenceUpdated({filter: this._filter})))).subscribe();
   }
 
   onFilterChange(filter: Filter) {
@@ -62,7 +85,7 @@ export class TransactionListComponent implements OnInit {
   }
 
   onPageChanged(pageData: { pageIndex: string, pageSize: string, startPosition: string }) {
-    console.log(pageData);
+    // console.log(pageData);
     this._pageData = pageData;
     this.store.dispatch(new FilterUpdated({filter: this._filter, pageData: this._pageData}));
   }

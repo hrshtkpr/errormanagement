@@ -39,7 +39,7 @@
     <mat-chip-list #chipList>
       <mat-chip *ngFor="let chip of chips" [selectable]="true"
                 [removable]="true" (removed)="removeCriteria(chip.name )">
-        {{chip.name}}={{chip.value}}
+        <div>{{chip.name | replace:'BusinessRef.'}}={{chip.value}}</div>
         <mat-icon matChipRemove>cancel</mat-icon>
       </mat-chip>
     </mat-chip-list>
