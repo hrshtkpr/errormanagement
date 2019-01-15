@@ -1,6 +1,6 @@
 import {Action} from '@ngrx/store';
 import {Filter} from '../shared/components/mat-filter/mat-filter.component';
-import {BusinessRef, EventASML, Transaction} from './transaction.model';
+import {BusinessRef, EventASML, PageData, Transaction} from './transaction.model';
 
 export enum TransactionActionTypes {
   FilterUpdated = '[Transaction List Page] Filter Updated',
@@ -16,7 +16,7 @@ export enum TransactionActionTypes {
 export class FilterUpdated implements Action {
   readonly type = TransactionActionTypes.FilterUpdated;
 
-  constructor(public payload: { filter: Filter, pageData: {pageIndex: string, pageSize: string, startPosition: string} }) {
+  constructor(public payload: { filter: Filter, pageData: PageData }) {
 
   }
 }

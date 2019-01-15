@@ -1,11 +1,11 @@
 import {Filter} from '../shared/components/mat-filter/mat-filter.component';
 import {TransactionActions, TransactionActionTypes} from './transaction.actions';
-import {BusinessRef, EventASML, Transaction} from './transaction.model';
+import {BusinessRef, EventASML, PageData, Transaction} from './transaction.model';
 
 
 export interface TransactionState {
   filter: Filter;
-  pageData: {pageIndex: string, pageSize: string, startPosition: string};
+  pageData: PageData;
   transactionListLoading: boolean;
   transactionList: Transaction[];
   transactionsCount: number;
@@ -21,7 +21,7 @@ export interface TransactionState {
 
 export const initialTransactionState: TransactionState = {
   filter: {},
-  pageData: null,
+  pageData: new PageData(0, 5, 0),
   transactionListLoading: false,
   transactionList: [],
   transactionsCount: 0,
@@ -87,7 +87,7 @@ export function transactionReducer(state = initialTransactionState, action: Tran
       return {
         ...state,
         businessReferences: action.payload.businessReferences,
-        businessRefListLoading:  false
+        businessRefListLoading: false
       };
     case TransactionActionTypes.TechnicalReferenceUpdated:
       return {

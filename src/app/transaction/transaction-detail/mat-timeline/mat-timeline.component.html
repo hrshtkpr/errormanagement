@@ -29,7 +29,7 @@
       </mgl-timeline-entry-content>
       <mgl-timeline-entry-dot [style.background-color]="entry.EventStatus=='Exception' ? 'red' : 'green'"
                               [size]="25"
-                              (click)="onDotClick(entry)">
+                              (click)="onDotClick(entry)"  class="clickable" >
         <mat-icon *ngIf="entry.EventStatus=='Start-Entrypoint'">flight_takeoff</mat-icon>
         <mat-icon *ngIf="entry.EventStatus=='End-Entrypoint'">flight_land</mat-icon>
         <mat-icon *ngIf="entry.EventStatus=='Exception' && entry.BusinessConcept=='ErrorReport'">bug_report</mat-icon>

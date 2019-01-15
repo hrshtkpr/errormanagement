@@ -8,7 +8,7 @@
   <div class="asml--padding-left-right-s asml--margin-top-s">
     <div class="example-container  mat-elevation-z1">
       <app-mat-table [rows]="flatTransactions$ | async" (transactionIDSelected)="onTransactionIDSelected($event)"
-                     (pageChanged)="onPageChanged($event)" [rowCount]="selectTransactionCount$ | async"></app-mat-table>
+                     (pageChanged)="onPageChanged($event)" [rowCount]="selectTransactionCount$ | async" [pageData]="pageData$ | async"></app-mat-table>
     </div>
   </div>
 </div>

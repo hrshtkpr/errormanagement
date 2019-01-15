@@ -5,7 +5,7 @@ import {
   BusinessReferencesLoaded,
   EventLoaded,
   EventSelected,
-  FilterUpdated, TechnicalReferenceUpdated,
+  FilterUpdated,
   TransactionActionTypes,
   TransactionLoaded,
   TransactionSelected,
@@ -18,35 +18,25 @@ import {defer, of} from 'rxjs';
 @Injectable()
 export class TransactionEffects {
   @Effect()
-  init$ = defer( () => {
-    const lsfilter = localStorage.getItem('EventManagement.Filter');
-    const lsPageData = localStorage.getItem('EventManagement.FilterPageData');
-    if (lsfilter) {
-      console.log('HERE!');
-      return of(new FilterUpdated({filter: JSON.parse(lsfilter), pageData: JSON.parse(lsPageData)}));
-    }
-  });
-
-  @Effect()
   loadTransactions$ = this.actions$.pipe(
     ofType<FilterUpdated>(TransactionActionTypes.FilterUpdated),
+    // filter(action => action !== null),
     tap(action => {
       localStorage.setItem('EventManagement.Filter', JSON.stringify(action.payload.filter));
       localStorage.setItem('EventManagement.FilterPageData', JSON.stringify(action.payload.pageData));
-      console.log('Also Here!');
     }),
     switchMap(action => this.transactionService.getTransactions(action.payload.filter, action.payload.pageData)),
     map(response => (response['Transactions'] && response['Transactions']['Transaction']) ?
       (new TransactionsLoaded({transactionList: response['Transactions']['Transaction'], transactionsCount: response['TotalCount']})) :
-      (new TransactionsLoaded({transactionList: [], transactionsCount: 0 }))
+      (new TransactionsLoaded({transactionList: [], transactionsCount: 0}))
     )
   );
-
 
 
   @Effect()
   loadBusinessReferences$ = this.actions$.pipe(
     ofType<FilterUpdated>(TransactionActionTypes.TechnicalReferenceUpdated),
+    // filter(action => action !== null),
     switchMap(action => this.transactionService.getBusinessReferences(action.payload.filter)),
     map(response => (response['BusinessRefs'] && response['BusinessRefs']['BusinessRef']) ?
       (new BusinessReferencesLoaded({businessReferences: response['BusinessRefs']['BusinessRef']})) :
@@ -74,6 +64,20 @@ export class TransactionEffects {
     )
   );
 
+  // if the following is made the first effect in this class, any effect of action that this dispatches will not  be calles
+  // Following effect needs to be last so that is is loaded and subscribed to after all other effects
+  // so that if this dispatches an action it is reduced and corresponding effect is called
+  @Effect()
+  init$ = defer(() => {
+    const lsfilter = localStorage.getItem('EventManagement.Filter');
+    const lsPageData = localStorage.getItem('EventManagement.FilterPageData');
+    if (lsfilter) {
+      return of(new FilterUpdated({filter: JSON.parse(lsfilter), pageData: JSON.parse(lsPageData)}));
+    }
+  });
+
+
   constructor(private actions$: Actions, private transactionService: TransactionService) {
   }
+
 }

@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
 
   constructor() {
     this.sideNavOpen = true;
-    this.title = 'Error Management';
+    this.title = 'Event Management';
   }
 
   ngOnInit() {

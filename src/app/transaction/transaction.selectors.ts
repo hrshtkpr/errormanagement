@@ -33,6 +33,11 @@ export const selectFilter = createSelector(
   transaction => transaction.filter
 );
 
+export const selectPageData = createSelector(
+  selectTransactionState,
+  transaction => transaction.pageData
+);
+
 export const selectBusinessReferences = createSelector(
   selectTransactionState,
   transaction => transaction.businessReferences

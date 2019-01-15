@@ -9,13 +9,15 @@
   </mat-form-field>
 
 
-    <mat-spinner *ngIf="businessRefListLoading$ | async" [mode]="'indeterminate'" [diameter]="15"></mat-spinner>
-    <mat-form-field fxFlex>
+<div fxFlex [fxLayout]="'row'" fxLayoutGap="0.2rem">
+    <mat-form-field>
       <mat-select placeholder="Business Reference" [(ngModel)]="selectedBusinessRef" (valueChange)="onBusinessRefNameChanged($event)">
         <mat-option  *ngFor="let businessReferenceName of businessReferencesNames" [value]="businessReferenceName">{{businessReferenceName}}</mat-option>
       </mat-select>
-    </mat-form-field>
 
+    </mat-form-field>
+  <mat-spinner  [style.visibility]="(businessRefListLoading$ | async)?'visible':'hidden'" [mode]="'indeterminate'" [diameter]="15" fxFlexAlign="center"></mat-spinner>
+</div>
   <!-- <mat-form-field fxFlex>
     <input #businessRef matInput placeholder="Value" (keyup.enter)="addCriteria('BusinessRef',businessRef.value)" (blur)="addCriteria('BusinessRef',businessRef.value)">
   </mat-form-field> -->

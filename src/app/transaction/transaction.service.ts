@@ -5,6 +5,7 @@ import {catchError, map} from 'rxjs/operators';
 
 import {of} from 'rxjs';
 import {environment} from '../../environments/environment';
+import {PageData} from './transaction.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +15,12 @@ export class TransactionService {
   constructor(private readonly httpClient: HttpClient) {
   }
 
-  getTransactions(filter: Filter, payLoad: { pageIndex: string, pageSize: string, startPosition: string }) {
+  getTransactions(filter: Filter, payLoad: PageData) {
     const url = environment.url + '/transactions';
     const params = {
       ...filter,
-      StartPosition: payLoad.startPosition,
-      NumberOfItems: payLoad.pageSize
+      StartPosition: payLoad.startPosition.toString(),
+      NumberOfItems: payLoad.pageSize.toString()
     };
     return this.httpClient.get(url, {params: params}).pipe(
       map((result) => {

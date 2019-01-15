@@ -171,3 +171,15 @@ export class BusinessRef {
   Value: string;
 }
 
+export class PageData {
+  pageIndex: number;
+  pageSize: number;
+  startPosition: number;
+
+  constructor(pageIndex: number, pageSize: number, startPosition: number) {
+    this.pageIndex = pageIndex;
+    this.pageSize = pageSize;
+    this.startPosition = startPosition;
+  }
+
+}
