@@ -1,7 +1,11 @@
 import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {BusinessRef} from '../../../transaction/transaction.model';
 import {map} from 'rxjs/operators';
-
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {Observable} from 'rxjs';
+import {select, Store} from '@ngrx/store';
+import {selectBusinessRefListLoading, selectTransactionASMLEventListLoading} from '../../../transaction/transaction.selectors';
+import {AppState} from '../../../reducers';
 
 export class Filter {
 }
@@ -30,8 +34,10 @@ export class MatFilterComponent implements OnChanges {
   selectedBusinessRefValue: string;
   selectedTechnicalRefName: string;
   selectedExceptionRefName: string;
+  businessRefListLoading$: Observable<boolean>;
 
-  constructor() {
+
+  constructor(private store: Store<AppState>) {
     this.technicalReferences = [];
     this.businessReferences = [];
     this.exceptionReferences = [];
@@ -41,10 +47,13 @@ export class MatFilterComponent implements OnChanges {
 
   ngOnChanges() {
     this.filterToChips();
-    this.businessReferencesNames = this.businessReferences && Array.from (new Set (this.businessReferences.map( busref => busref && busref.Name)));
+    this.businessReferencesNames = this.businessReferences && Array.from (
+      new Set (this.businessReferences.map( busref => busref && busref.Name))
+    );
 
-    // map(response => response && response.map(busRef => busRef.Name)),
-    // map( response => response && response.length > 0 && Array.from(new Set(response)))
+    this.businessRefListLoading$ = this.store.pipe(
+      select(selectBusinessRefListLoading)
+    );
   }
 
   removeCriteria(name: string) {

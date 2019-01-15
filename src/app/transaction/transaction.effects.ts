@@ -12,20 +12,37 @@ import {
   TransactionsLoaded
 } from './transaction.actions';
 import {map, switchMap, tap} from 'rxjs/operators';
+import {defer, of} from 'rxjs';
 
 
 @Injectable()
 export class TransactionEffects {
+  @Effect()
+  init$ = defer( () => {
+    const lsfilter = localStorage.getItem('EventManagement.Filter');
+    const lsPageData = localStorage.getItem('EventManagement.FilterPageData');
+    if (lsfilter) {
+      console.log('HERE!');
+      return of(new FilterUpdated({filter: JSON.parse(lsfilter), pageData: JSON.parse(lsPageData)}));
+    }
+  });
 
   @Effect()
   loadTransactions$ = this.actions$.pipe(
     ofType<FilterUpdated>(TransactionActionTypes.FilterUpdated),
+    tap(action => {
+      localStorage.setItem('EventManagement.Filter', JSON.stringify(action.payload.filter));
+      localStorage.setItem('EventManagement.FilterPageData', JSON.stringify(action.payload.pageData));
+      console.log('Also Here!');
+    }),
     switchMap(action => this.transactionService.getTransactions(action.payload.filter, action.payload.pageData)),
     map(response => (response['Transactions'] && response['Transactions']['Transaction']) ?
       (new TransactionsLoaded({transactionList: response['Transactions']['Transaction'], transactionsCount: response['TotalCount']})) :
       (new TransactionsLoaded({transactionList: [], transactionsCount: 0 }))
     )
   );
+
+
 
   @Effect()
   loadBusinessReferences$ = this.actions$.pipe(

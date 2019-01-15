@@ -10,7 +10,7 @@ export class XmlPipe implements PipeTransform {
         const x = this.xml(decodeURIComponent(value), 5);
         return x;
       } else {
-        return 'No data found';
+        return '';
       }
     } catch (e) {
       return value;
@@ -20,6 +20,7 @@ export class XmlPipe implements PipeTransform {
   private xml(text: string, step: number) {
 
     const ar = text.replace(/>\s{0,}</g, '><')
+      .replace('####BACKENDRESPONSE','\n\n\n####BACKENDRESPONSE')
       .replace(/</g, '~::~<')
       .replace(/\s*xmlns\:/g, '~::~xmlns:')
       .replace(/\s*xmlns\=/g, '~::~xmlns=')

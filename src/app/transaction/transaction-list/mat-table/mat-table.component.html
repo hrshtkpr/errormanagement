@@ -15,7 +15,7 @@
       </mat-icon>
       <!--<a *ngIf="disCol=='TransactionID'" [routerLink]="['/transaction',element[disCol]]">{{element[disCol]}}</a>-->
       <div *ngIf="disCol!='Status' && disCol!='TransactionID'" class="mat-row">{{element[disCol]}}</div>
-      <div *ngIf="disCol=='TransactionID'" class="mat-row" (click)="onTransactionIDClicked(element[disCol])">{{element[disCol]}}</div>
+      <div *ngIf="disCol=='TransactionID'" class="mat-row clickable" (click)="onTransactionIDClicked(element[disCol])">{{element[disCol]}}</div>
     </td>
 
   </ng-container>

@@ -15,7 +15,7 @@ import {
   MatMenuModule,
   MatNativeDateModule,
   MatPaginatorModule,
-  MatProgressBarModule,
+  MatProgressBarModule, MatProgressSpinnerModule,
   MatSelectModule,
   MatSidenavModule,
   MatSlideToggleModule,
@@ -68,7 +68,8 @@ import {ReplacePipe} from './pipes/replace-pipe';
     HttpClientModule,
     FlexLayoutModule,
     CommonModule,
-    RouterModule
+    RouterModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatTableModule,
@@ -101,7 +102,8 @@ import {ReplacePipe} from './pipes/replace-pipe';
     FlexLayoutModule,
     MatCardComponent,
     RouterModule,
-    MatFilterComponent
+    MatFilterComponent,
+    MatProgressSpinnerModule
   ]
 })
 export class SharedModule {

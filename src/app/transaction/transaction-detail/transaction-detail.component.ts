@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FlatEvent} from '../transaction.model';
 import {MatDialog} from '@angular/material';
 import {select, Store} from '@ngrx/store';
-import {selectASMLEvent, selectTransactionASMLEventList} from '../transaction.selectors';
+import {selectASMLEvent, selectTransactionASMLEventList, selectTransactionASMLEventListLoading} from '../transaction.selectors';
 import {filter, map, tap} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {AppState} from '../../reducers';
@@ -22,6 +22,8 @@ export class TransactionDetailComponent implements OnInit {
   serviceInProgress: boolean;
   entries$: Observable<FlatEvent[]>;
   entry$: Observable<FlatEvent>;
+  transactionASMLEventListLoading$: Observable<boolean>;
+
   constructor(public dialog: MatDialog, private store: Store<AppState>, private readonly _activatedRoute: ActivatedRoute) {
   }
 
@@ -34,6 +36,11 @@ export class TransactionDetailComponent implements OnInit {
                                                           (asmlEvt.EventType === 'L' && asmlEvt.EventStatus !== 'Warning-Entrypoint'
                                                           && asmlEvt.EventStatus !== 'Error-Entrypoint')))
                                       .map(evt => new FlatEvent(evt)))
+    );
+
+
+    this.transactionASMLEventListLoading$ = this.store.pipe(
+      select(selectTransactionASMLEventListLoading)
     );
   }
 

@@ -8,13 +8,13 @@ import {
   selectBusinessConcept,
   selectBusinessDomain, selectBusinessOperation,
   selectBusinessReferences, selectComponent,
-  selectFilter, selectService, selectTechnicalDomain,
+  selectFilter, selectService, selectTechnicalDomain, selectTransactionASMLEventList, selectTransactionASMLEventListLoading,
   selectTransactionCount,
   selectTransactionList,
   selectTransactionListLoading
 } from '../transaction.selectors';
 import {combineLatest, Observable} from 'rxjs';
-import {map, tap} from 'rxjs/operators';
+import {delay, map, tap} from 'rxjs/operators';
 import {Router} from '@angular/router';
 
 @Component({
@@ -32,7 +32,6 @@ export class TransactionListComponent implements OnInit {
   selectTransactionCount$: Observable<number>;
   filter$: Observable<Filter>;
   businessReferences$: Observable<BusinessRef[]>;
-  _technicalReferenceSelected$: Observable<Filter>;
 
   constructor(private store: Store<AppState>, private router: Router) {
     this._pageData = {pageIndex: '0', pageSize: '5', startPosition: '0'};
@@ -42,8 +41,8 @@ export class TransactionListComponent implements OnInit {
     this.filter$ = this.store.pipe(
       select(selectFilter),
       tap(response => {
-        // console.log(response);
         this._filter = response;
+        // this.store.dispatch(new TechnicalReferenceUpdated({filter: this._filter}));
       })
     );
     this.flatTransactions$ = this.store.pipe(
@@ -52,9 +51,7 @@ export class TransactionListComponent implements OnInit {
     );
     this.selectTransactionCount$ = this.store.pipe(
       select(selectTransactionCount),
-      tap(response => {
-        // console.log(response);
-      })
+      tap(response => {})
     );
     this.transactionListLoading$ = this.store.pipe(
       select(selectTransactionListLoading)
@@ -72,7 +69,12 @@ export class TransactionListComponent implements OnInit {
       this.store.select(selectBusinessDomain),
       this.store.select(selectBusinessOperation),
       this.store.select(selectBusinessConcept),
-    ).pipe(tap( response => this.store.dispatch(new TechnicalReferenceUpdated({filter: this._filter})))).subscribe();
+    ).pipe(
+      delay(500), // this is required because it is taking some time to initialize this._filter, even if it is the first selector, line 46
+      tap( response => {
+      // console.log(this._filter);
+      return this.store.dispatch(new TechnicalReferenceUpdated({filter: this._filter}));
+    })).subscribe();
   }
 
   onFilterChange(filter: Filter) {
@@ -81,7 +83,7 @@ export class TransactionListComponent implements OnInit {
   }
 
   onTransactionIDSelected(transactionID: string) {
-    this.router.navigate(['transaction', transactionID]);
+    this.router.navigate(['transactions', transactionID]);
   }
 
   onPageChanged(pageData: { pageIndex: string, pageSize: string, startPosition: string }) {

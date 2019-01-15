@@ -15,6 +15,8 @@ export interface TransactionState {
   eventType: string;
   eventASML: EventASML;
   businessReferences: BusinessRef[];
+  transactionASMLEventListLoading: boolean;
+  businessRefListLoading: boolean;
 }
 
 export const initialTransactionState: TransactionState = {
@@ -28,7 +30,9 @@ export const initialTransactionState: TransactionState = {
   eventID: '',
   eventType: '',
   eventASML: null,
-  businessReferences: null
+  businessReferences: null,
+  transactionASMLEventListLoading: false,
+  businessRefListLoading: false
 };
 
 export function transactionReducer(state = initialTransactionState, action: TransactionActions): TransactionState {
@@ -50,12 +54,14 @@ export function transactionReducer(state = initialTransactionState, action: Tran
     case TransactionActionTypes.TransactionSelected:
       return {
         ...state,
-        transactionID: action.payload.transactionID
+        transactionID: action.payload.transactionID,
+        transactionASMLEventListLoading: true
       };
     case TransactionActionTypes.TransactionLoaded:
       return {
         ...state,
-        transactionASMLEventList: action.payload.transactionASMLEventList
+        transactionASMLEventList: action.payload.transactionASMLEventList,
+        transactionASMLEventListLoading: false
       };
     case TransactionActionTypes.EventSelected:
       return {
@@ -81,10 +87,12 @@ export function transactionReducer(state = initialTransactionState, action: Tran
       return {
         ...state,
         businessReferences: action.payload.businessReferences,
+        businessRefListLoading:  false
       };
     case TransactionActionTypes.TechnicalReferenceUpdated:
       return {
-        ...state
+        ...state,
+        businessRefListLoading: true
       };
     default:
       return state;

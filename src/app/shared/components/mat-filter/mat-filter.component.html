@@ -8,11 +8,14 @@
     <input #technicalRef matInput placeholder="Value" (keyup.enter)="addCriteria('TechnicalRef',technicalRef.value)" (blur)="addCriteria('TechnicalRef',technicalRef.value)">
   </mat-form-field>
 
-  <mat-form-field fxFlex>
-    <mat-select placeholder="Business Reference" [(ngModel)]="selectedBusinessRef" (valueChange)="onBusinessRefNameChanged($event)">
-      <mat-option  *ngFor="let businessReferenceName of businessReferencesNames" [value]="businessReferenceName">{{businessReferenceName}}</mat-option>
-    </mat-select>
-  </mat-form-field>
+
+    <mat-spinner *ngIf="businessRefListLoading$ | async" [mode]="'indeterminate'" [diameter]="15"></mat-spinner>
+    <mat-form-field fxFlex>
+      <mat-select placeholder="Business Reference" [(ngModel)]="selectedBusinessRef" (valueChange)="onBusinessRefNameChanged($event)">
+        <mat-option  *ngFor="let businessReferenceName of businessReferencesNames" [value]="businessReferenceName">{{businessReferenceName}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
   <!-- <mat-form-field fxFlex>
     <input #businessRef matInput placeholder="Value" (keyup.enter)="addCriteria('BusinessRef',businessRef.value)" (blur)="addCriteria('BusinessRef',businessRef.value)">
   </mat-form-field> -->

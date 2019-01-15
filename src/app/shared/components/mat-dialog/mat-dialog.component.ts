@@ -27,6 +27,7 @@ export class MatDialogComponent implements OnInit {
   }
 
   onDoneClick(): void {
+    this.data$ = null;
     this.dialogRef.close();
   }
 

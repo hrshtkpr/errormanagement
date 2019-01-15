@@ -73,3 +73,12 @@ export const selectBusinessConcept = createSelector(
   selectTransactionState,
   transaction => transaction.filter['BusinessConcept']
 );
+export const selectTransactionASMLEventListLoading = createSelector(
+  selectTransactionState,
+  transaction => transaction.transactionASMLEventListLoading
+);
+
+export const selectBusinessRefListLoading = createSelector(
+  selectTransactionState,
+  transaction => transaction.businessRefListLoading
+);

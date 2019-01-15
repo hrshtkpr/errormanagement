@@ -1,3 +1,3 @@
-<mat-progress-bar *ngIf="serviceInProgress" mode="indeterminate"></mat-progress-bar>
-<app-mat-timeline [entriesInput]="entries$ | async" (entrySelected)="onEntrySelected($event)"
+<mat-progress-bar *ngIf="transactionASMLEventListLoading$ | async" mode="indeterminate"></mat-progress-bar>
+<app-mat-timeline *ngIf="!(transactionASMLEventListLoading$ | async)" [entriesInput]="entries$ | async" (entrySelected)="onEntrySelected($event)"
                   (dialogSelected)="onDialogSelected($event)"></app-mat-timeline>
