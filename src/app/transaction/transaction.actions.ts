@@ -4,6 +4,7 @@ import {BusinessRef, EventASML, PageData, Transaction} from './transaction.model
 
 export enum TransactionActionTypes {
   FilterUpdated = '[Transaction List Page] Filter Updated',
+  PageDataUpdated = '[Transaction List Page] Page Data Updated',
   TransactionsLoaded = '[Transaction API] Transactions Loaded',
   TransactionSelected = '[Transaction List Page] Transaction Selected',
   TransactionLoaded = '[Transaction API] Transaction Loaded',
@@ -15,6 +16,14 @@ export enum TransactionActionTypes {
 
 export class FilterUpdated implements Action {
   readonly type = TransactionActionTypes.FilterUpdated;
+
+  constructor(public payload: { filter: Filter, pageData: PageData }) {
+
+  }
+}
+
+export class PageDataUpdated implements Action {
+  readonly type = TransactionActionTypes.PageDataUpdated;
 
   constructor(public payload: { filter: Filter, pageData: PageData }) {
 
@@ -78,6 +87,7 @@ export class TechnicalReferenceUpdated implements Action {
 }
 
 export type TransactionActions = FilterUpdated |
+  PageDataUpdated |
   TransactionsLoaded |
   TransactionSelected |
   TransactionLoaded |

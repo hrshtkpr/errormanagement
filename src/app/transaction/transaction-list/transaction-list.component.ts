@@ -3,7 +3,7 @@ import {BusinessRef, FlatTransaction, PageData} from '../transaction.model';
 import {Filter} from '../../shared/components/mat-filter/mat-filter.component';
 import {AppState} from '../../reducers';
 import {select, Store} from '@ngrx/store';
-import {FilterUpdated, TechnicalReferenceUpdated} from '../transaction.actions';
+import {FilterUpdated, PageDataUpdated, TechnicalReferenceUpdated} from '../transaction.actions';
 import {
   selectBusinessConcept,
   selectBusinessDomain,
@@ -104,6 +104,6 @@ export class TransactionListComponent implements OnInit {
   onPageChanged(pageData: PageData) {
     // console.log(pageData);
     this._pageData = pageData;
-    this.store.dispatch(new FilterUpdated({filter: this._filter, pageData: this._pageData}));
+    this.store.dispatch(new PageDataUpdated({filter: this._filter, pageData: this._pageData}));
   }
 }

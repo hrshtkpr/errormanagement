@@ -6,6 +6,7 @@ import {
   EventLoaded,
   EventSelected,
   FilterUpdated,
+  PageDataUpdated,
   TransactionActionTypes,
   TransactionLoaded,
   TransactionSelected,
@@ -13,6 +14,7 @@ import {
 } from './transaction.actions';
 import {map, switchMap, tap} from 'rxjs/operators';
 import {defer, of} from 'rxjs';
+import {PageData} from './transaction.model';
 
 
 @Injectable()
@@ -20,7 +22,16 @@ export class TransactionEffects {
   @Effect()
   loadTransactions$ = this.actions$.pipe(
     ofType<FilterUpdated>(TransactionActionTypes.FilterUpdated),
-    // filter(action => action !== null),
+    tap(action => {
+      localStorage.setItem('EventManagement.Filter', JSON.stringify(action.payload.filter));
+      localStorage.setItem('EventManagement.FilterPageData', JSON.stringify(action.payload.pageData));
+    }),
+    map(action => new PageDataUpdated({filter: action.payload.filter, pageData: new PageData(0, action.payload.pageData.pageSize, 0)}))
+  );
+
+  @Effect()
+  loadTransactionsPageData$ = this.actions$.pipe(
+    ofType<FilterUpdated>(TransactionActionTypes.PageDataUpdated),
     tap(action => {
       localStorage.setItem('EventManagement.Filter', JSON.stringify(action.payload.filter));
       localStorage.setItem('EventManagement.FilterPageData', JSON.stringify(action.payload.pageData));
@@ -32,11 +43,9 @@ export class TransactionEffects {
     )
   );
 
-
   @Effect()
   loadBusinessReferences$ = this.actions$.pipe(
     ofType<FilterUpdated>(TransactionActionTypes.TechnicalReferenceUpdated),
-    // filter(action => action !== null),
     switchMap(action => this.transactionService.getBusinessReferences(action.payload.filter)),
     map(response => (response['BusinessRefs'] && response['BusinessRefs']['BusinessRef']) ?
       (new BusinessReferencesLoaded({businessReferences: response['BusinessRefs']['BusinessRef']})) :

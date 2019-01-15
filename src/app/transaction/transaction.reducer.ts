@@ -41,6 +41,11 @@ export function transactionReducer(state = initialTransactionState, action: Tran
       return {
         ...state,
         filter: action.payload.filter,
+        transactionListLoading: true
+      };
+    case TransactionActionTypes.PageDataUpdated:
+      return {
+        ...state,
         pageData: action.payload.pageData,
         transactionListLoading: true
       };
