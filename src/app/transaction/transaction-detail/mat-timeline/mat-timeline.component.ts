@@ -8,9 +8,10 @@ import {FlatEvent} from '../../transaction.model';
 })
 export class MatTimelineComponent implements OnInit, OnChanges {
   @Input() entriesInput: FlatEvent[];
-  private _entries: FlatEvent[];
   @Output() entrySelected: EventEmitter<FlatEvent>;
   @Output() dialogSelected: EventEmitter<{ title: string, flatEvent: FlatEvent }>;
+  serviceInProgress: boolean;
+  private _entries: FlatEvent[];
 
   constructor() {
     this.entrySelected = new EventEmitter(true);
@@ -61,6 +62,10 @@ export class MatTimelineComponent implements OnInit, OnChanges {
 
   openDialog(title: string, flatEvent: FlatEvent): void {
     this.dialogSelected.emit({title: title, flatEvent: flatEvent});
+  }
+
+  decode(str: string): string {
+    return decodeURIComponent(str);
   }
 
 }

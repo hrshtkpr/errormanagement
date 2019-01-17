@@ -8,7 +8,7 @@ import {FlatEvent} from '../../../transaction/transaction.model';
 import {Observable} from 'rxjs';
 
 export interface DialogData {
-  Title: string;
+  title: string;
   Content: string;
 }
 
@@ -31,6 +31,9 @@ export class MatDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  dump(obj: Object): string {
+    return JSON.stringify(obj);
+  }
   ngOnInit() {
 
     this.data$ = this.store.pipe(

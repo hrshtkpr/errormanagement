@@ -22,7 +22,7 @@
             <app-mat-card [subtitle]="'Code'" [title]="entry.Code"></app-mat-card>
           </div>
           <div *ngIf="entry.EventType=='E'" fxLayout="row wrap" fxLayoutGap="1rem">
-            <app-mat-card fxFlex [subtitle]="'Message'" [title]="entry.Message"></app-mat-card>
+            <app-mat-card fxFlex [subtitle]="'Message'" [title]="decode(entry.Message)"></app-mat-card>
           </div>
         </div>
 

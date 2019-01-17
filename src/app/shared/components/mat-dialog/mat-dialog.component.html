@@ -1,8 +1,8 @@
 <h1 mat-dialog-title>{{data?.title}}</h1>
-<div mat-dialog-content *ngIf="data?.title.indexOf('Transaction Data')>-1">
+<div mat-dialog-content *ngIf="data?.title?.indexOf('Transaction Data')>-1">
   <pre lang="xml">{{ ((data$|async)?.TransactionData || '')| XML}}</pre>
 </div>
-<div mat-dialog-content *ngIf="data?.title.indexOf('Dump Analysis')>-1">
+<div mat-dialog-content *ngIf="data?.title?.indexOf('Dump Analysis')>-1">
   <pre lang="xml">{{ ((data$|async)?.DumpAnalysis || '')| XML}}</pre>
 </div>
 <div mat-dialog-actions>

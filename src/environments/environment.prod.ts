@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  url: '/'
+  url: '/api/event-handler/v0.1'
 };

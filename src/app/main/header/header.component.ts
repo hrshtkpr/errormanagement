@@ -11,14 +11,14 @@ export class HeaderComponent implements OnInit {
   @Output()
   toggleSideNav: EventEmitter<boolean> = new EventEmitter(true);
   sideNavToggle() {
-    this.sideNavOpen = !this.sideNavOpen
+    this.sideNavOpen = !this.sideNavOpen;
     this.toggleSideNav.emit(this.sideNavOpen);
     // console.log(this.sideNavOpen);
   }
 
   constructor() {
     this.sideNavOpen = true;
-    this.title = 'Event Management';
+    this.title = 'TIBCO Event Manager';
   }
 
   ngOnInit() {
